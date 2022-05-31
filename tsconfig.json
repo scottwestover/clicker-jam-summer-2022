@@ -4,6 +4,7 @@
 		"outDir": "dist",
 		"types": [
 			"node",
+			"phaser",
 			"jest"
 		],
 		"typeRoots": [

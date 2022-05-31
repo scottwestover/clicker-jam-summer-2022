@@ -1,4 +1,4 @@
-import * as Calculator from '../../src/data/calculator';
+import * as Calculator from '../../../../src/game/core/sprints/calculator';
 
 describe('Calculator', () => {
   describe('add', () => {

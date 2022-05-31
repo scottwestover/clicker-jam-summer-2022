@@ -1,10 +1,12 @@
+import * as GameUtils from '@devshareacademy/common-game-utils';
 import BaseScene from './base-scene';
 import SceneKeys from './scene-keys';
 import * as Config from '../config';
 import AssetKey from '../assets/asset-key';
 import * as Align from '../../lib/align';
-import { IdleGame } from '../core';
+import IdleGame from '../core';
 import { ProgressBar } from '../../lib/components/progress-bar';
+import * as EventCenter from '../../lib/events/event-center';
 
 export default class GameScene extends BaseScene {
   private monitorScreenImage!: Phaser.GameObjects.Image;
@@ -13,6 +15,9 @@ export default class GameScene extends BaseScene {
   private taskText!: Phaser.GameObjects.Text;
   private storyPointsRemainingText!: Phaser.GameObjects.Text;
   private progressBar!: ProgressBar;
+  private taskHintText!: Phaser.GameObjects.Text;
+  private currentTaskText!: Phaser.GameObjects.Text;
+  private gainedExperienceTextGroup!: Phaser.GameObjects.Group;
 
   constructor() {
     super({
@@ -24,7 +29,7 @@ export default class GameScene extends BaseScene {
   public init(): void {
     // initialize scene data
     this.idleGame = new IdleGame();
-    this.progressBar = new ProgressBar(this, 400);
+    this.progressBar = new ProgressBar(this, this.sceneWidth / 2.2);
   }
 
   public create(): void {
@@ -35,32 +40,31 @@ export default class GameScene extends BaseScene {
 
     // create monitor screen image
     this.monitorScreenImage = this.add.image(0, 0, AssetKey.MONITOR);
-    this.monitorScreenImage.alpha = 0.3;
+    this.monitorScreenImage.alpha = 1;
     this.monitorScreenImage.setInteractive();
     // eslint-disable-next-line @typescript-eslint/unbound-method
     this.monitorScreenImage.on(Phaser.Input.Events.POINTER_DOWN as string, this.handlePlayerInput, this);
 
-    const title = this.add.text(0, 0, 'Hello World!', Config.MONITOR_PHASER_TEXT_STYLE);
-    this.grid.placeGameObjectAtIndex(78, title);
+    // place function and hint text
+    this.taskHintText = this.add.text(0, 0, this.idleGame.currentLevelTaskText, {
+      ...Config.MONITOR_PHASER_TEXT_STYLE,
+      color: '#ffffff',
+    });
+    this.currentTaskText = this.add.text(
+      0,
+      0,
+      this.idleGame.currentLevelFunctionText,
+      Config.MONITOR_PHASER_TEXT_STYLE,
+    );
 
     // place level information in the ui
-    this.sprintText = this.add.text(0, 0, `Sprint: ${this.idleGame.level}`, {
-      color: '#ffffff',
-      fontFamily: 'Arial Black',
-      fontSize: '60px',
-      strokeThickness: 1,
-    });
+    this.sprintText = this.add.text(0, 0, `Sprint: ${this.idleGame.level}`, Config.UI_PHASER_TEXT_STYLE);
     this.sprintText.setOrigin(0.5, 0.5);
     this.taskText = this.add.text(
       0,
       0,
       `Tasks: ${this.idleGame.tasksCompleted}/${this.idleGame.requiredTasksToCompleteLevel}`,
-      {
-        color: '#ffffff',
-        fontFamily: 'Arial Black',
-        fontSize: '40px',
-        strokeThickness: 1,
-      },
+      Config.UI_PHASER_TEXT_STYLE,
     );
     this.taskText.setOrigin(0.5, 0.5);
 
@@ -70,6 +74,33 @@ export default class GameScene extends BaseScene {
     this.storyPointsRemainingText = this.add
       .text(0, 0, 'Task Progress:', Config.MONITOR_TASK_PROGRESS_PHASER_TEXT_STYLE)
       .setOrigin(0.5);
+
+    // place gained experience in the ui
+    this.gainedExperienceTextGroup = this.add.group();
+
+    // listen for gained experience events
+    EventCenter.emitter.on(
+      EventCenter.SupportedEvents.GAINED_EXPERIENCE,
+      (experience: number) => {
+        let textElement = this.gainedExperienceTextGroup.getFirstDead() as Phaser.GameObjects.Text | undefined;
+        if (!textElement) {
+          textElement = this.add.text(0, 0, `+0 EXP`, Config.UI_PHASER_TEXT_STYLE).setOrigin(0.5);
+          this.gainedExperienceTextGroup.add(textElement);
+        }
+        textElement.setText(`+${experience} EXP`);
+        this.grid.placeGameObjectAtIndex(112, textElement);
+        Align.scaleGameObjectToGameWidth(textElement, this.sceneWidth, 0.25);
+        this.tweens.add({
+          targets: textElement,
+          alpha: 0,
+          x: GameUtils.random.between(textElement.x - 200, textElement.x + 200),
+          y: textElement.y - 300,
+          duration: 1000,
+          ease: Phaser.Math.Easing.Cubic.Out,
+        });
+      },
+      this,
+    );
 
     this.resize(this.scale.gameSize);
   }
@@ -85,21 +116,33 @@ export default class GameScene extends BaseScene {
 
     // resize sprint text
     if (this.sprintText) {
+      Align.scaleGameObjectToGameWidth(this.sprintText, this.sceneWidth, 0.3);
       this.grid.placeGameObjectAtIndex(7, this.sprintText);
     }
     // resize task text
     if (this.taskText) {
+      Align.scaleGameObjectToGameWidth(this.taskText, this.sceneWidth, 0.25);
       this.grid.placeGameObjectAtIndex(22, this.taskText);
     }
 
     // resize the progress bar
     if (this.progressBar) {
-      this.progressBar.container.setScale(1.7 * (this.sceneWidth / this.sceneHeight));
-      this.grid.placeGameObjectAtIndex(50, this.progressBar.container);
+      this.grid.placeGameObjectAtIndex(50.5, this.progressBar.container);
     }
     if (this.storyPointsRemainingText) {
-      Align.scaleGameObjectToGameWidth(this.storyPointsRemainingText, this.sceneWidth, 0.23);
+      Align.scaleGameObjectToGameWidth(this.storyPointsRemainingText, this.sceneWidth, 0.275);
       this.grid.placeGameObjectAtIndex(48, this.storyPointsRemainingText);
+    }
+
+    // resize function and hint text
+    if (this.taskHintText) {
+      Align.scaleGameObjectToGameWidth(this.taskHintText, this.sceneWidth, 0.65);
+      this.grid.placeGameObjectAtIndex(76, this.taskHintText);
+    }
+    if (this.currentTaskText) {
+      Align.scaleGameObjectToGameWidth(this.currentTaskText, this.sceneWidth, 0.8);
+      this.currentTaskText.scaleY = this.currentTaskText.scaleX * 1.2;
+      this.grid.placeGameObjectAtIndex(91, this.currentTaskText);
     }
   }
 
@@ -115,6 +158,17 @@ export default class GameScene extends BaseScene {
         this.taskText.setAlpha(1);
       }
       this.taskText.setText(`Tasks: ${this.idleGame.tasksCompleted}/${this.idleGame.requiredTasksToCompleteLevel}`);
+    }
+    if (this.taskHintText) {
+      this.taskHintText.setText(this.idleGame.currentLevelTaskText);
+    }
+    if (this.currentTaskText) {
+      // calculate the remaining progress for the current level (task)
+      const storyPointsRemaining = this.idleGame.currentLevelStoryPoints / this.idleGame.maxLevelStoryPoints;
+      // calculate the amount of the code text to show to the user based on how much progress has been made
+      const textLengthToShow = (1 - storyPointsRemaining) * this.idleGame.currentLevelFunctionText.length;
+      // update the text shown in the game
+      this.currentTaskText.setText(this.idleGame.currentLevelFunctionText.slice(0, textLengthToShow));
     }
   }
 

@@ -11,9 +11,17 @@ const codeTextStyle: Phaser.Types.GameObjects.Text.TextStyle = {
   fontStyle: 'normal',
   color: '#00c200',
 };
+
 const taskProgressTextStyle: Phaser.Types.GameObjects.Text.TextStyle = {
   ...codeTextStyle,
   fontSize: '32px',
+};
+
+const uiTextStyle: Phaser.Types.GameObjects.Text.TextStyle = {
+  color: '#ffffff',
+  fontFamily: 'Arial Black',
+  fontSize: '60px',
+  strokeThickness: 1,
 };
 
 export const GAME_WIDTH = WIDTH;
@@ -26,3 +34,4 @@ export const DEBUG = true;
 export const PHASER_RESIZE_SCALE_MODE = false;
 export const MONITOR_PHASER_TEXT_STYLE = codeTextStyle;
 export const MONITOR_TASK_PROGRESS_PHASER_TEXT_STYLE = taskProgressTextStyle;
+export const UI_PHASER_TEXT_STYLE = uiTextStyle;
