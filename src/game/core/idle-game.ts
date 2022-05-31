@@ -70,6 +70,10 @@ export class IdleGame {
     return `${this.#currentLevelTaskText} (tests)`;
   }
 
+  get player(): Player {
+    return this.#player;
+  }
+
   public handlePlayerClick(): void {
     this.#currentLevelStoryPoints -= this.#player.clickDamage;
 
@@ -82,6 +86,7 @@ export class IdleGame {
       // TODO
       // emit message about task completion
       EventCenter.emitter.emit(EventCenter.SupportedEvents.GAINED_EXPERIENCE, this.#currentLevelExperienceReward);
+      this.player.addExperience(this.#currentLevelExperienceReward);
     }
   }
 }

@@ -20,3 +20,4 @@ Action Items:
 - [ ] need audio for game
 - [ ] need upgrades and menu
 - [ ] ability to save and load game
+- [ ] look into scaling on different screen sizes, align grid is causing issues based on the height of the cells

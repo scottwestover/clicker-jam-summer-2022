@@ -18,6 +18,8 @@ export default class GameScene extends BaseScene {
   private taskHintText!: Phaser.GameObjects.Text;
   private currentTaskText!: Phaser.GameObjects.Text;
   private gainedExperienceTextGroup!: Phaser.GameObjects.Group;
+  private tpsText!: Phaser.GameObjects.Text;
+  private currentExperienceText!: Phaser.GameObjects.Text;
 
   constructor() {
     super({
@@ -40,7 +42,7 @@ export default class GameScene extends BaseScene {
 
     // create monitor screen image
     this.monitorScreenImage = this.add.image(0, 0, AssetKey.MONITOR);
-    this.monitorScreenImage.alpha = 1;
+    this.monitorScreenImage.alpha = 0.3;
     this.monitorScreenImage.setInteractive();
     // eslint-disable-next-line @typescript-eslint/unbound-method
     this.monitorScreenImage.on(Phaser.Input.Events.POINTER_DOWN as string, this.handlePlayerInput, this);
@@ -68,6 +70,8 @@ export default class GameScene extends BaseScene {
     );
     this.taskText.setOrigin(0.5, 0.5);
 
+    // place tps text above the progress bar
+    this.tpsText = this.add.text(0, 0, `TPPS: ${this.idleGame.player.dps}`, Config.UI_PHASER_TEXT_STYLE);
     // place progress bar in the ui for story points remaining
     this.progressBar.init();
     // place story points remaining in the ui
@@ -102,6 +106,14 @@ export default class GameScene extends BaseScene {
       this,
     );
 
+    // place current experience in the ui
+    this.currentExperienceText = this.add.text(
+      0,
+      0,
+      `EXP: ${this.idleGame.player.experience}`,
+      Config.MONITOR_TASK_PROGRESS_PHASER_TEXT_STYLE,
+    );
+
     this.resize(this.scale.gameSize);
   }
 
@@ -110,7 +122,7 @@ export default class GameScene extends BaseScene {
 
     // resize monitor image
     if (this.monitorScreenImage) {
-      Align.scaleGameObjectToGameWidth(this.monitorScreenImage, this.sceneWidth, 0.9);
+      Align.scaleGameObjectToGameWidth(this.monitorScreenImage, this.sceneWidth, 0.92);
       this.grid.placeGameObjectAtIndex(97, this.monitorScreenImage);
     }
 
@@ -125,6 +137,13 @@ export default class GameScene extends BaseScene {
       this.grid.placeGameObjectAtIndex(22, this.taskText);
     }
 
+    // resize tps text
+    if (this.tpsText) {
+      console.log(this.monitorScreenImage.displayHeight);
+      Align.scaleGameObjectToGameWidth(this.tpsText, this.sceneWidth, 0.1);
+      this.grid.placeGameObjectAtIndex(37, this.tpsText);
+      this.tpsText.y += 50;
+    }
     // resize the progress bar
     if (this.progressBar) {
       this.grid.placeGameObjectAtIndex(50.5, this.progressBar.container);
@@ -143,6 +162,13 @@ export default class GameScene extends BaseScene {
       Align.scaleGameObjectToGameWidth(this.currentTaskText, this.sceneWidth, 0.8);
       this.currentTaskText.scaleY = this.currentTaskText.scaleX * 1.2;
       this.grid.placeGameObjectAtIndex(91, this.currentTaskText);
+    }
+
+    // resize experience text
+    if (this.currentExperienceText) {
+      Align.scaleGameObjectToGameWidth(this.currentExperienceText, this.sceneWidth, 0.1);
+      this.grid.placeGameObjectAtIndex(136, this.currentExperienceText);
+      this.currentExperienceText.y += this.grid.cellDimensions.height / 2;
     }
   }
 
@@ -169,6 +195,9 @@ export default class GameScene extends BaseScene {
       const textLengthToShow = (1 - storyPointsRemaining) * this.idleGame.currentLevelFunctionText.length;
       // update the text shown in the game
       this.currentTaskText.setText(this.idleGame.currentLevelFunctionText.slice(0, textLengthToShow));
+    }
+    if (this.currentExperienceText) {
+      this.currentExperienceText.setText(`EXP: ${this.idleGame.player.experience}`);
     }
   }
 

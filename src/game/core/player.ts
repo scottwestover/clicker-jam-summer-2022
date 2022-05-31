@@ -29,6 +29,10 @@ export default class Player {
     this.#dps += amount;
   }
 
+  public addExperience(amount: number): void {
+    this.#experience += amount;
+  }
+
   public reset(): void {
     this.#clickDamage = 1;
     this.#dps = 0;
