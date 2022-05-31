@@ -1,26 +1,28 @@
 {
-	"name": "@devshareacademy/typescript-web-app-template",
-	"version": "0.1.0",
-	"description": "A basic Typescript web app project template that uses Vite.",
+	"name": "clicker-jam-summer-2022",
+	"version": "0.0.1",
+	"description": "A fun idle clicker game that uses Phaser 3 for the clicker jam summer 2022.",
 	"scripts": {
 		"start": "vite --config config/vite.config.js",
 		"build": "tsc && vite build --config config/vite.config.js",
 		"serve": "vite preview --config config/vite.config.js",
 		"lint": "eslint ./src --ext .ts,.tsx --config ./config/.eslintrc",
-		"version": "auto-changelog -p && git add CHANGELOG.md"
+		"version": "auto-changelog -p && git add CHANGELOG.md",
+		"test": "jest"
 	},
 	"author": "scottwestover",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/devshareacademy/typescript-web-app-template.git"
+		"url": "https://github.com/scottwestover/clicker-jam-summer-2022.git"
 	},
-	"homepage": "https://github.com/devshareacademy/typescript-web-app-template",
+	"homepage": "https://github.com/scottwestover/clicker-jam-summer-2022",
 	"devDependencies": {
 		"@devshareacademy/eslint-config": "0.0.16",
 		"@devshareacademy/prettier-config": "0.0.4",
 		"@devshareacademy/tsconfig": "0.0.3",
 		"@types/jest": "27.5.0",
+		"@types/webfontloader": "1.6.34",
 		"@typescript-eslint/eslint-plugin": "5.22.0",
 		"@typescript-eslint/parser": "5.22.0",
 		"auto-changelog": "2.4.0",
@@ -33,7 +35,11 @@
 		"typescript": "4.6.4",
 		"vite": "2.9.8"
 	},
-	"dependencies": {},
+	"dependencies": {
+		"@devshareacademy/common-game-utils": "0.0.2",
+		"phaser": "3.55.2",
+		"webfontloader": "1.6.28"
+	},
 	"resolutions": {},
 	"prettier": "@devshareacademy/prettier-config",
 	"volta": {
