@@ -64,7 +64,7 @@ export default abstract class BaseScene extends Phaser.Scene {
     this.cameras.resize(width, height);
 
     if (this.grid) {
-      this.grid.resize(width, height);
+      this.grid.resize(width, height, Config.DEBUG);
     }
   }
 

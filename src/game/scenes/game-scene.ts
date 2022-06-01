@@ -184,7 +184,7 @@ export default class GameScene extends BaseScene {
     if (this.currentExperienceText) {
       Align.scaleGameObjectToGameWidth(this.currentExperienceText, this.sceneWidth, 0.1);
       this.grid.placeGameObjectAtIndex(136, this.currentExperienceText);
-      this.currentExperienceText.y += this.grid.cellDimensions.height / 2;
+      // this.currentExperienceText.y += this.grid.cellDimensions.height / 2;
     }
 
     // resize upgrades button
@@ -272,6 +272,6 @@ export default class GameScene extends BaseScene {
       })
       .setOrigin(0.5);
     this.upgradesButtonContainer.add(playAgainText);
-    this.upgradesButton.image.setScale(2, 1);
+    this.upgradesButton.image.setScale(1.5, 1);
   }
 }

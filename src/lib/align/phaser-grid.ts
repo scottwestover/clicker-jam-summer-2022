@@ -69,12 +69,15 @@ export default class PhaserGrid extends GameUtils.grid.BasicGrid {
     this.graphics.strokePath();
   }
 
-  public resize(width: number, height: number): void {
+  public resize(width: number, height: number, drawGrid = false): void {
     super.resize(width, height);
-    if (this.showIndexes) {
-      this.drawGridWithIndexes();
-    } else {
-      this.drawGrid();
+
+    if (drawGrid) {
+      if (this.showIndexes) {
+        this.drawGridWithIndexes();
+      } else {
+        this.drawGrid();
+      }
     }
   }
 
