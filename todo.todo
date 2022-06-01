@@ -13,11 +13,14 @@ https://html5.litten.com/understanding-save-and-restore-for-the-canvas-context/
 Action Items:
 -----------------
 - [ ] update function code to show the unit tests text after first task is complete
-- [ ] update current function code text to show full function and have a tween animation
+- [x] update current function code text to show full function and have a tween animation
 - [ ] need a way to transition to next level
-- [ ] need to show current develop experience
+- [x] need to show current develop experience
 - [ ] need art for keyboard, desk, and items
 - [ ] need audio for game
-- [ ] need upgrades and menu
+- [ ] need upgrades and menus
 - [ ] ability to save and load game
 - [ ] look into scaling on different screen sizes, align grid is causing issues based on the height of the cells
+- [ ] add upgrades to menu with game logic
+- [ ] add logic to toggle menu
+- [ ] add dps loop

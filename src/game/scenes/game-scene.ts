@@ -7,6 +7,7 @@ import * as Align from '../../lib/align';
 import IdleGame from '../core';
 import { ProgressBar } from '../../lib/components/progress-bar';
 import * as EventCenter from '../../lib/events/event-center';
+import Button from '../../lib/components/button';
 
 export default class GameScene extends BaseScene {
   private monitorScreenImage!: Phaser.GameObjects.Image;
@@ -16,10 +17,13 @@ export default class GameScene extends BaseScene {
   private storyPointsRemainingText!: Phaser.GameObjects.Text;
   private progressBar!: ProgressBar;
   private taskHintText!: Phaser.GameObjects.Text;
+  private currentTaskTextGroup!: Phaser.GameObjects.Group;
   private currentTaskText!: Phaser.GameObjects.Text;
   private gainedExperienceTextGroup!: Phaser.GameObjects.Group;
   private tpsText!: Phaser.GameObjects.Text;
   private currentExperienceText!: Phaser.GameObjects.Text;
+  private upgradesButtonContainer!: Phaser.GameObjects.Container;
+  private upgradesButton!: Button;
 
   constructor() {
     super({
@@ -52,12 +56,8 @@ export default class GameScene extends BaseScene {
       ...Config.MONITOR_PHASER_TEXT_STYLE,
       color: '#ffffff',
     });
-    this.currentTaskText = this.add.text(
-      0,
-      0,
-      this.idleGame.currentLevelFunctionText,
-      Config.MONITOR_PHASER_TEXT_STYLE,
-    );
+    this.currentTaskTextGroup = this.add.group();
+    this.currentTaskText = this.getCurrentTaskText();
 
     // place level information in the ui
     this.sprintText = this.add.text(0, 0, `Sprint: ${this.idleGame.level}`, Config.UI_PHASER_TEXT_STYLE);
@@ -85,7 +85,7 @@ export default class GameScene extends BaseScene {
     // listen for gained experience events
     EventCenter.emitter.on(
       EventCenter.SupportedEvents.GAINED_EXPERIENCE,
-      (experience: number) => {
+      (experience: number, functionText: string) => {
         let textElement = this.gainedExperienceTextGroup.getFirstDead() as Phaser.GameObjects.Text | undefined;
         if (!textElement) {
           textElement = this.add.text(0, 0, `+0 EXP`, Config.UI_PHASER_TEXT_STYLE).setOrigin(0.5);
@@ -102,6 +102,20 @@ export default class GameScene extends BaseScene {
           duration: 1000,
           ease: Phaser.Math.Easing.Cubic.Out,
         });
+
+        // show completed task text
+        const functionTextElement = this.getCurrentTaskText();
+        functionTextElement.setText(functionText);
+        this.tweens.add({
+          targets: functionTextElement,
+          alpha: 0,
+          y: textElement.y + 50,
+          duration: 2000,
+          ease: Phaser.Math.Easing.Cubic.Out,
+          onComplete: () => {
+            functionTextElement.setActive(false);
+          },
+        });
       },
       this,
     );
@@ -113,6 +127,9 @@ export default class GameScene extends BaseScene {
       `EXP: ${this.idleGame.player.experience}`,
       Config.MONITOR_TASK_PROGRESS_PHASER_TEXT_STYLE,
     );
+
+    // create upgrades button
+    this.createUpgradesButton();
 
     this.resize(this.scale.gameSize);
   }
@@ -139,7 +156,6 @@ export default class GameScene extends BaseScene {
 
     // resize tps text
     if (this.tpsText) {
-      console.log(this.monitorScreenImage.displayHeight);
       Align.scaleGameObjectToGameWidth(this.tpsText, this.sceneWidth, 0.1);
       this.grid.placeGameObjectAtIndex(37, this.tpsText);
       this.tpsText.y += 50;
@@ -158,7 +174,7 @@ export default class GameScene extends BaseScene {
       Align.scaleGameObjectToGameWidth(this.taskHintText, this.sceneWidth, 0.65);
       this.grid.placeGameObjectAtIndex(76, this.taskHintText);
     }
-    if (this.currentTaskText) {
+    if (this.currentTaskTextGroup) {
       Align.scaleGameObjectToGameWidth(this.currentTaskText, this.sceneWidth, 0.8);
       this.currentTaskText.scaleY = this.currentTaskText.scaleX * 1.2;
       this.grid.placeGameObjectAtIndex(91, this.currentTaskText);
@@ -169,6 +185,13 @@ export default class GameScene extends BaseScene {
       Align.scaleGameObjectToGameWidth(this.currentExperienceText, this.sceneWidth, 0.1);
       this.grid.placeGameObjectAtIndex(136, this.currentExperienceText);
       this.currentExperienceText.y += this.grid.cellDimensions.height / 2;
+    }
+
+    // resize upgrades button
+    if (this.upgradesButtonContainer) {
+      this.upgradesButtonContainer.setScale(3.5 * (this.sceneWidth / this.sceneHeight));
+      this.grid.placeGameObjectAtIndex(197, this.upgradesButtonContainer);
+      this.upgradesButtonContainer.y += this.grid.cellDimensions.height / 2;
     }
   }
 
@@ -205,5 +228,50 @@ export default class GameScene extends BaseScene {
     this.idleGame.handlePlayerClick();
     const storyPointsRemaining = this.idleGame.currentLevelStoryPoints / this.idleGame.maxLevelStoryPoints;
     this.progressBar.setMeterPercentageAnimated(1 - storyPointsRemaining, 250);
+  }
+
+  private getCurrentTaskText(): Phaser.GameObjects.Text {
+    let textElement = this.currentTaskTextGroup.getFirstDead() as Phaser.GameObjects.Text | undefined;
+    if (!textElement) {
+      textElement = this.add.text(0, 0, this.idleGame.currentLevelFunctionText, Config.MONITOR_PHASER_TEXT_STYLE);
+      this.currentTaskTextGroup.add(textElement);
+    }
+    textElement.setActive(true);
+    textElement.setAlpha(1);
+
+    // position the text element in the grid
+    Align.scaleGameObjectToGameWidth(textElement, this.sceneWidth, 0.8);
+    textElement.scaleY = textElement.scaleX * 1.2;
+    this.grid.placeGameObjectAtIndex(91, textElement);
+    return textElement;
+  }
+
+  private createUpgradesButton(): void {
+    this.upgradesButtonContainer = this.add.container();
+    this.upgradesButton = new Button({
+      scene: this,
+      defaultImageKey: AssetKey.UI_BUTTON,
+      hoverButtonImageKey: AssetKey.UI_BUTTON,
+      clickCallBack: () => {
+        // TODO: add logic to open the upgrades menu
+        this.idleGame.player.addToClickDamage(1);
+      },
+    });
+    this.upgradesButtonContainer.add(this.upgradesButton.image);
+    this.upgradesButton.image.on(Phaser.Input.Events.POINTER_OVER as string, () => {
+      this.upgradesButtonContainer.y -= 10;
+    });
+    this.upgradesButton.image.on(Phaser.Input.Events.POINTER_OUT as string, () => {
+      this.upgradesButtonContainer.y += 10;
+    });
+
+    const playAgainText = this.add
+      .text(0, 0, 'Upgrades', {
+        color: '#000000',
+        fontSize: '28px',
+      })
+      .setOrigin(0.5);
+    this.upgradesButtonContainer.add(playAgainText);
+    this.upgradesButton.image.setScale(2, 1);
   }
 }

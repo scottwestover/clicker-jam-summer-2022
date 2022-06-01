@@ -1,5 +1,5 @@
 import Player from './player';
-import { config } from './config';
+import { levelConfiguration } from './config';
 import * as EventCenter from '../../lib/events/event-center';
 
 export class IdleGame {
@@ -19,7 +19,7 @@ export class IdleGame {
     this.#tasksCompleted = 0;
     this.#maxLevelCompleted = 0;
     this.#level = 1;
-    const levelConfig = config[this.#level];
+    const levelConfig = levelConfiguration[this.#level];
     if (levelConfig) {
       this.#currentLevelStoryPoints = levelConfig.storyPoints;
       this.#maxLevelStoryPoints = levelConfig.storyPoints;
@@ -78,15 +78,20 @@ export class IdleGame {
     this.#currentLevelStoryPoints -= this.#player.clickDamage;
 
     if (this.#currentLevelStoryPoints <= 0) {
+      // emit message about task completion
+      EventCenter.emitter.emit(
+        EventCenter.SupportedEvents.GAINED_EXPERIENCE,
+        this.#currentLevelExperienceReward,
+        this.#currentLevelFunctionText,
+      );
+      this.player.addExperience(this.#currentLevelExperienceReward);
+
       // increment number of sub tasks completed for current task
       this.#tasksCompleted++;
       // reset current level story points
       this.#currentLevelStoryPoints = this.#maxLevelStoryPoints;
       // check if level is complete so player is able to move to next level
       // TODO
-      // emit message about task completion
-      EventCenter.emitter.emit(EventCenter.SupportedEvents.GAINED_EXPERIENCE, this.#currentLevelExperienceReward);
-      this.player.addExperience(this.#currentLevelExperienceReward);
     }
   }
 }

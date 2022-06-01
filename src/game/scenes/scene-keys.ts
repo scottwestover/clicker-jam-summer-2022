@@ -5,6 +5,7 @@ enum SceneKeys {
   PRELOAD_SCENE = 'PreloadScene',
   TITLE_SCENE = 'TitleScene',
   AUDIO_MANAGER_SCENE = 'AudioManagerScene',
+  UPGRADE_MENU_SCENE = 'UpgradeMenuScene',
 }
 
 export default SceneKeys;

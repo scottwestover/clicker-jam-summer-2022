@@ -21,6 +21,8 @@ export default class PreloadScene extends BaseScene {
     this.load.image(AssetKey.HEALTH_BAR_LEFT_CAP, '/assets/images/game/progress-bar/barHorizontal_green_left.png');
     this.load.image(AssetKey.HEALTH_BAR_MIDDLE, '/assets/images/game/progress-bar/barHorizontal_green_mid.png');
     this.load.image(AssetKey.HEALTH_BAR_RIGHT_CAP, '/assets/images/game/progress-bar/barHorizontal_green_right.png');
+    this.load.image(AssetKey.UI_BUTTON, '/assets/images/game/metalPanel.png');
+    this.load.image(AssetKey.MONITOR_ALT, '/assets/images/game/computerMonitorAlt.png');
 
     // load assets for progress bar
     this.load.image(

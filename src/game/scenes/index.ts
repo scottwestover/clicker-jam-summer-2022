@@ -5,5 +5,15 @@ import GameOverScene from './game-over-scene';
 import GameScene from './game-scene';
 import TitleScene from './title-scene';
 import AudioManagerScene from './audio-manager-scene';
+import UpgradeMenuScene from './upgrade-menu-scene';
 
-export { BootScene, PreloadScene, GameOverScene, GameScene, SceneKeys, TitleScene, AudioManagerScene };
+export {
+  BootScene,
+  PreloadScene,
+  GameOverScene,
+  GameScene,
+  SceneKeys,
+  TitleScene,
+  AudioManagerScene,
+  UpgradeMenuScene,
+};

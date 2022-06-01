@@ -57,6 +57,8 @@ export default class TitleScene extends BaseScene {
         this.playButton.image.disableInteractive();
         this.fadeOut(Config.SCENE_TRANSITION_DURATION);
       },
+      defaultImageFrame: 'blue_button01.png',
+      hoverButtonImageFrame: 'blue_button00.png',
     });
     this.playButtonContainer.add(this.playButton.image);
 

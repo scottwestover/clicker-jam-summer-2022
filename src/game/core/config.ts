@@ -1,7 +1,7 @@
 import type { LevelConfig } from './types';
 import * as Calculator from './sprints/calculator';
 
-const config: {
+const levelConfiguration: {
   [key: string]: LevelConfig;
 } = {
   1: {
@@ -12,4 +12,15 @@ const config: {
   },
 };
 
-export { config };
+const upgradeConfiguration = {
+  upgrade1: {
+    1: {
+      cost: 5,
+    },
+    2: {
+      cost: 10,
+    },
+  },
+};
+
+export { levelConfiguration, upgradeConfiguration };

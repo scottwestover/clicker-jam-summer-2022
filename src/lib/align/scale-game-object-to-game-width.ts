@@ -7,7 +7,16 @@ import { GameObject } from './game-object';
  * @param percent The percent of the sceneWidth the gameObject should be scaled to. This value should be between 0 and 1.
  * @returns void
  */
-export default function scaleGameObjectToGameWidth(gameObject: GameObject, sceneWidth: number, percent: number): void {
+export function scaleGameObjectToGameWidth(gameObject: GameObject, sceneWidth: number, percent: number): void {
   gameObject.displayWidth = sceneWidth * percent;
   gameObject.scaleY = gameObject.scaleX;
+}
+
+export function scaleGameObjectToGameSize(
+  gameObject: GameObject,
+  gameSize: Phaser.Structs.Size,
+  percent: number,
+): void {
+  gameObject.displayWidth = gameSize.width * percent;
+  gameObject.displayHeight = gameSize.height * percent;
 }

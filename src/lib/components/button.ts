@@ -3,7 +3,9 @@ import * as Phaser from 'phaser';
 export interface ButtonConfiguration {
   scene: Phaser.Scene;
   defaultImageKey: string;
+  defaultImageFrame?: string;
   hoverButtonImageKey: string;
+  hoverButtonImageFrame?: string;
   x?: number;
   y?: number;
   clickCallBack?: () => void;
@@ -22,13 +24,13 @@ export default class Button {
     this.defaultButtonAssetKey = defaultImageKey;
     this.hoverButtonAssetKey = hoverButtonImageKey;
 
-    this.buttonImage = scene.add.image(x, y, defaultImageKey, 'blue_button00.png');
+    this.buttonImage = scene.add.image(x, y, defaultImageKey, config.defaultImageFrame);
     this.buttonImage.setInteractive();
 
     this.buttonImage.on(
       Phaser.Input.Events.POINTER_OVER as string,
       () => {
-        this.buttonImage.setTexture(this.hoverButtonAssetKey, 'blue_button01.png');
+        this.buttonImage.setTexture(this.hoverButtonAssetKey, config.hoverButtonImageFrame);
       },
       this,
     );
@@ -36,7 +38,7 @@ export default class Button {
     this.buttonImage.on(
       Phaser.Input.Events.POINTER_OUT as string,
       () => {
-        this.buttonImage.setTexture(this.defaultButtonAssetKey, 'blue_button00.png');
+        this.buttonImage.setTexture(this.defaultButtonAssetKey, config.defaultImageFrame);
       },
       this,
     );

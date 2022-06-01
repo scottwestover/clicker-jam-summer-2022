@@ -26,6 +26,7 @@ export default class Game {
     this.game.scene.add(Scenes.SceneKeys.GAME_SCENE, Scenes.GameScene);
     this.game.scene.add(Scenes.SceneKeys.GAME_OVER_SCENE, Scenes.GameOverScene);
     this.game.scene.add(Scenes.SceneKeys.AUDIO_MANAGER_SCENE, Scenes.AudioManagerScene);
+    this.game.scene.add(Scenes.SceneKeys.UPGRADE_MENU_SCENE, Scenes.UpgradeMenuScene);
   }
 
   public start(): void {

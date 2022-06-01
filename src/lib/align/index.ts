@@ -1,3 +1,3 @@
-import scaleGameObjectToGameWidth from './scale-game-object-to-game-width';
+import { scaleGameObjectToGameWidth, scaleGameObjectToGameSize } from './scale-game-object-to-game-width';
 
-export { scaleGameObjectToGameWidth };
+export { scaleGameObjectToGameWidth, scaleGameObjectToGameSize };
