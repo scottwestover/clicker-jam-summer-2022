@@ -1,25 +1,7 @@
-- [x] need to create a util grid for making development easier
-- [x] need to start working on basic functionality of the game
-
-
 - [ ] think about details to provide in a daily update and reasoning for wanting to write my own
 - [ ] explain basic game idea and concept, and my goals for the Game Jam
 - [ ] article on canvas restore and save, can give example of text and rectangles
 
 https://www.tutorialspoint.com/html5/canvas_states.htm
 https://html5.litten.com/understanding-save-and-restore-for-the-canvas-context/
-
-
-Action Items:
------------------
-- [ ] update function code to show the unit tests text after first task is complete
-- [ ] need a way to transition to next level
-- [ ] need art for keyboard, desk, and items
-- [ ] need audio for game
-- [ ] need upgrades and menus
-- [ ] ability to save and load game
-- [ ] look into scaling on different screen sizes, align grid is causing issues based on the height of the cells
-- [ ] add upgrades to menu with game logic
-- [ ] add logic to toggle menu
-- [ ] add dps loop
 

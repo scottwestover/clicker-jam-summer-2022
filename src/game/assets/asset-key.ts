@@ -12,6 +12,8 @@ enum AssetKey {
   UI_BUTTON = 'ui-button',
   MONITOR_ALT = 'monitor-alt',
   ICONS = 'icons',
+  ARROW_LEFT = 'arrow-left',
+  ARROW_RIGHT = 'arrow-right',
 }
 
 export default AssetKey;

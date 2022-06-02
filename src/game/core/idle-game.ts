@@ -15,6 +15,7 @@ export class IdleGame {
   #tasksCompleted: number;
   #requiredTasksToCompleteLevel = 10;
   #maxLevelCompleted: number;
+  #maxLevelTasksCompleted: number;
 
   public static getInstance(): IdleGame {
     if (!IdleGame.instance) {
@@ -28,25 +29,24 @@ export class IdleGame {
     this.#player = new Player();
     this.#tasksCompleted = 0;
     this.#maxLevelCompleted = 0;
+    this.#maxLevelTasksCompleted = 0;
     this.#level = 1;
-    const levelConfig = levelConfiguration[this.#level];
-    if (levelConfig) {
-      this.#currentLevelStoryPoints = levelConfig.storyPoints;
-      this.#maxLevelStoryPoints = levelConfig.storyPoints;
-      this.#currentLevelFunctionText = levelConfig.functionText;
-      this.#currentLevelTaskText = levelConfig.taskText;
-      this.#currentLevelExperienceReward = levelConfig.experienceReward;
-    } else {
-      this.#currentLevelStoryPoints = 0;
-      this.#maxLevelStoryPoints = 0;
-      this.#currentLevelFunctionText = '';
-      this.#currentLevelTaskText = '';
-      this.#currentLevelExperienceReward = 0;
-    }
+
+    this.#currentLevelStoryPoints = 0;
+    this.#maxLevelStoryPoints = 0;
+    this.#currentLevelFunctionText = '';
+    this.#currentLevelTaskText = '';
+    this.#currentLevelExperienceReward = 0;
+
+    this.loadLevelConfiguration();
   }
 
   get level(): number {
     return this.#level;
+  }
+
+  get maxLevelCompleted(): number {
+    return this.#maxLevelCompleted;
   }
 
   get tasksCompleted(): number {
@@ -74,7 +74,7 @@ export class IdleGame {
   }
 
   get currentLevelTaskText(): string {
-    if (this.#tasksCompleted === 0) {
+    if (this.#tasksCompleted === 0 && this.#maxLevelCompleted < this.#level) {
       return this.#currentLevelTaskText;
     }
     return `${this.#currentLevelTaskText} (tests)`;
@@ -106,7 +106,48 @@ export class IdleGame {
       // reset current level story points
       this.#currentLevelStoryPoints = this.#maxLevelStoryPoints;
       // check if level is complete so player is able to move to next level
-      // TODO
+      if (this.#tasksCompleted >= this.#requiredTasksToCompleteLevel && this.#maxLevelCompleted < this.#level) {
+        this.#maxLevelCompleted = this.#level;
+        this.#maxLevelTasksCompleted = 0;
+      }
+    }
+  }
+
+  public goToNextLevel(): void {
+    this.#level += 1;
+    this.handleLevelChange();
+  }
+
+  public goToPreviousLevel(): void {
+    // store current tasks completed if on current max level and level has not been completed before
+    if (this.#maxLevelCompleted < this.#level) {
+      this.#maxLevelTasksCompleted = this.#tasksCompleted;
+    }
+    this.#level -= 1;
+    this.handleLevelChange();
+  }
+
+  private handleLevelChange(): void {
+    // load level configuration
+    this.loadLevelConfiguration();
+    // reset tasks completed if level has not been completed before
+    if (this.#maxLevelCompleted < this.#level) {
+      this.#tasksCompleted = this.#maxLevelTasksCompleted;
+    }
+    // reset current level story points
+    this.#currentLevelStoryPoints = this.#maxLevelStoryPoints;
+  }
+
+  private loadLevelConfiguration(): void {
+    const levelConfig = levelConfiguration[this.#level];
+    if (levelConfig) {
+      this.#currentLevelStoryPoints = levelConfig.storyPoints;
+      this.#maxLevelStoryPoints = levelConfig.storyPoints;
+      this.#currentLevelFunctionText = levelConfig.functionText;
+      this.#currentLevelTaskText = levelConfig.taskText;
+      this.#currentLevelExperienceReward = levelConfig.experienceReward;
+    } else {
+      console.log('level configuration not found');
     }
   }
 }

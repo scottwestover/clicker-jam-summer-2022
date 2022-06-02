@@ -27,6 +27,8 @@ export default class PreloadScene extends BaseScene {
       frameWidth: 128,
       frameHeight: 128,
     });
+    this.load.image(AssetKey.ARROW_LEFT, 'assets/images/ui/arrowLeft.png');
+    this.load.image(AssetKey.ARROW_RIGHT, 'assets/images/ui/arrowRight.png');
 
     // load assets for progress bar
     this.load.image(

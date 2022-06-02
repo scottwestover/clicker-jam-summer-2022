@@ -10,6 +10,12 @@ const levelConfiguration: {
     storyPoints: 10,
     experienceReward: 1,
   },
+  2: {
+    functionText: Calculator.subtractFunctionText,
+    taskText: '// Task: Calculator - Subtract two numbers',
+    storyPoints: 20,
+    experienceReward: 2,
+  },
 };
 
 const upgradeConfiguration = {

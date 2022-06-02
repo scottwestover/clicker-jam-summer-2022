@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/unbound-method */
 import * as GameUtils from '@devshareacademy/common-game-utils';
 import BaseScene from './base-scene';
 import SceneKeys from './scene-keys';
@@ -25,6 +26,8 @@ export default class GameScene extends BaseScene {
   private upgradesButtonContainer!: Phaser.GameObjects.Container;
   private upgradesButton!: Button;
   private isMenuShown = false;
+  private backArrowImage!: Phaser.GameObjects.Image;
+  private forwardArrowImage!: Phaser.GameObjects.Image;
 
   constructor() {
     super({
@@ -140,7 +143,34 @@ export default class GameScene extends BaseScene {
       callback: () => this.handleDps(),
     });
 
+    // create level navigation buttons
+    this.backArrowImage = this.add.image(0, 0, AssetKey.ARROW_LEFT);
+    this.backArrowImage.setInteractive();
+    this.backArrowImage.on(Phaser.Input.Events.POINTER_DOWN as string, this.handleBackArrowClick, this);
+    this.forwardArrowImage = this.add.image(0, 0, AssetKey.ARROW_RIGHT);
+    this.forwardArrowImage.setInteractive();
+    this.forwardArrowImage.on(Phaser.Input.Events.POINTER_DOWN as string, this.handleForwardArrowClick, this);
+
     this.resize(this.scale.gameSize);
+
+    // simple animation for having player move to next level
+    const x = this.forwardArrowImage.x + 20;
+    this.tweens.add({
+      targets: this.forwardArrowImage,
+      x,
+      duration: 500,
+      ease: 'Power2',
+      yoyo: true,
+      loop: -1,
+    });
+  }
+
+  public handleBackArrowClick(): void {
+    this.idleGame.goToPreviousLevel();
+  }
+
+  public handleForwardArrowClick(): void {
+    this.idleGame.goToNextLevel();
   }
 
   public resize(gameSize: Phaser.Structs.Size): void {
@@ -202,6 +232,14 @@ export default class GameScene extends BaseScene {
       this.grid.placeGameObjectAtIndex(197, this.upgradesButtonContainer);
       this.upgradesButtonContainer.y += this.grid.cellDimensions.height / 2;
     }
+
+    // resize level navigation buttons
+    if (this.backArrowImage) {
+      this.grid.placeGameObjectAtIndex(4, this.backArrowImage);
+    }
+    if (this.forwardArrowImage) {
+      this.grid.placeGameObjectAtIndex(10, this.forwardArrowImage);
+    }
   }
 
   public update(): void {
@@ -230,6 +268,26 @@ export default class GameScene extends BaseScene {
     }
     if (this.currentExperienceText) {
       this.currentExperienceText.setText(`EXP: ${this.idleGame.player.experience}`);
+    }
+
+    // hide forward and back arrows based on the current level
+    if (this.backArrowImage) {
+      if (this.idleGame.level > 1) {
+        this.backArrowImage.setAlpha(1);
+        this.backArrowImage.setActive(true);
+      } else {
+        this.backArrowImage.setAlpha(0);
+        this.backArrowImage.setActive(false);
+      }
+    }
+    if (this.forwardArrowImage) {
+      if (this.idleGame.level <= this.idleGame.maxLevelCompleted) {
+        this.forwardArrowImage.setAlpha(1);
+        this.forwardArrowImage.setActive(true);
+      } else {
+        this.forwardArrowImage.setAlpha(0);
+        this.forwardArrowImage.setActive(false);
+      }
     }
   }
 
