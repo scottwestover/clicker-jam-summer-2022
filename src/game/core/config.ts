@@ -21,6 +21,14 @@ const upgradeConfiguration = {
       cost: 10,
     },
   },
+  upgrade2: {
+    1: {
+      cost: 10,
+    },
+    2: {
+      cost: 20,
+    },
+  },
 };
 
 export { levelConfiguration, upgradeConfiguration };

@@ -11,6 +11,7 @@ enum AssetKey {
   HEALTH_BAR_RIGHT_CAP_SHADOW = 'health-bar-right-cap-shadow',
   UI_BUTTON = 'ui-button',
   MONITOR_ALT = 'monitor-alt',
+  ICONS = 'icons',
 }
 
 export default AssetKey;

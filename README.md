@@ -50,3 +50,8 @@ Any static assets like images or audio files should be placed in the `public` fo
 ## Changelog
 
 This project uses [auto-changelog](https://github.com/CookPete/auto-changelog) for maintaining the changelog. You can view the Changelog here: [Changelog](CHANGELOG.md).
+
+## Glossary
+
+TPPS: Task Progress Per Second
+TPPC: Task Progress Per Click

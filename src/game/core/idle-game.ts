@@ -3,6 +3,8 @@ import { levelConfiguration } from './config';
 import * as EventCenter from '../../lib/events/event-center';
 
 export class IdleGame {
+  private static instance: IdleGame;
+
   #player: Player;
   #level: number;
   #currentLevelStoryPoints: number;
@@ -14,7 +16,15 @@ export class IdleGame {
   #requiredTasksToCompleteLevel = 10;
   #maxLevelCompleted: number;
 
-  constructor() {
+  public static getInstance(): IdleGame {
+    if (!IdleGame.instance) {
+      IdleGame.instance = new IdleGame();
+    }
+
+    return IdleGame.instance;
+  }
+
+  private constructor() {
     this.#player = new Player();
     this.#tasksCompleted = 0;
     this.#maxLevelCompleted = 0;
@@ -74,8 +84,13 @@ export class IdleGame {
     return this.#player;
   }
 
-  public handlePlayerClick(): void {
-    this.#currentLevelStoryPoints -= this.#player.clickDamage;
+  public handlePlayerClick(damage?: number): void {
+    if (damage) {
+      console.log(damage);
+      this.#currentLevelStoryPoints -= damage;
+    } else {
+      this.#currentLevelStoryPoints -= this.#player.clickDamage;
+    }
 
     if (this.#currentLevelStoryPoints <= 0) {
       // emit message about task completion

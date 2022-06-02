@@ -24,6 +24,7 @@ export default class GameScene extends BaseScene {
   private currentExperienceText!: Phaser.GameObjects.Text;
   private upgradesButtonContainer!: Phaser.GameObjects.Container;
   private upgradesButton!: Button;
+  private isMenuShown = false;
 
   constructor() {
     super({
@@ -34,8 +35,9 @@ export default class GameScene extends BaseScene {
 
   public init(): void {
     // initialize scene data
-    this.idleGame = new IdleGame();
+    this.idleGame = IdleGame.getInstance();
     this.progressBar = new ProgressBar(this, this.sceneWidth / 2.2);
+    this.isMenuShown = false;
   }
 
   public create(): void {
@@ -130,6 +132,13 @@ export default class GameScene extends BaseScene {
 
     // create upgrades button
     this.createUpgradesButton();
+
+    // create event loop for the auto task per second
+    this.time.addEvent({
+      loop: true,
+      delay: 100,
+      callback: () => this.handleDps(),
+    });
 
     this.resize(this.scale.gameSize);
   }
@@ -230,6 +239,14 @@ export default class GameScene extends BaseScene {
     this.progressBar.setMeterPercentageAnimated(1 - storyPointsRemaining, 250);
   }
 
+  public handleDps(): void {
+    if (this.idleGame && this.idleGame.player.dps > 0) {
+      this.idleGame.handlePlayerClick(this.idleGame.player.dps * 0.1);
+      const storyPointsRemaining = this.idleGame.currentLevelStoryPoints / this.idleGame.maxLevelStoryPoints;
+      this.progressBar.setMeterPercentageAnimated(1 - storyPointsRemaining, 250);
+    }
+  }
+
   private getCurrentTaskText(): Phaser.GameObjects.Text {
     let textElement = this.currentTaskTextGroup.getFirstDead() as Phaser.GameObjects.Text | undefined;
     if (!textElement) {
@@ -253,8 +270,12 @@ export default class GameScene extends BaseScene {
       defaultImageKey: AssetKey.UI_BUTTON,
       hoverButtonImageKey: AssetKey.UI_BUTTON,
       clickCallBack: () => {
-        // TODO: add logic to open the upgrades menu
-        this.idleGame.player.addToClickDamage(1);
+        if (this.isMenuShown) {
+          this.scene.stop(SceneKeys.UPGRADE_MENU_SCENE);
+        } else {
+          this.scene.launch(SceneKeys.UPGRADE_MENU_SCENE);
+        }
+        this.isMenuShown = !this.isMenuShown;
       },
     });
     this.upgradesButtonContainer.add(this.upgradesButton.image);
