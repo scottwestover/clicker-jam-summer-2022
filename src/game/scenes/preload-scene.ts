@@ -18,12 +18,12 @@ export default class PreloadScene extends BaseScene {
     this.load.atlasXML(AssetKey.UI, 'assets/images/ui/blueSheet.png', 'assets/images/ui/blueSheet.xml');
     this.load.audio(AssetKey.BACKGROUND_MUSIC, 'assets/audio/rise-and-shine.mp3');
     this.load.addFile(new WebFontFile(this.load, 'Inconsolata'));
-    this.load.image(AssetKey.HEALTH_BAR_LEFT_CAP, '/assets/images/game/progress-bar/barHorizontal_green_left.png');
-    this.load.image(AssetKey.HEALTH_BAR_MIDDLE, '/assets/images/game/progress-bar/barHorizontal_green_mid.png');
-    this.load.image(AssetKey.HEALTH_BAR_RIGHT_CAP, '/assets/images/game/progress-bar/barHorizontal_green_right.png');
-    this.load.image(AssetKey.UI_BUTTON, '/assets/images/game/metalPanel.png');
-    this.load.image(AssetKey.MONITOR_ALT, '/assets/images/game/computerMonitorAlt.png');
-    this.load.spritesheet(AssetKey.ICONS, '/assets/images/game/iconsDouble.png', {
+    this.load.image(AssetKey.HEALTH_BAR_LEFT_CAP, 'assets/images/game/progress-bar/barHorizontal_green_left.png');
+    this.load.image(AssetKey.HEALTH_BAR_MIDDLE, 'assets/images/game/progress-bar/barHorizontal_green_mid.png');
+    this.load.image(AssetKey.HEALTH_BAR_RIGHT_CAP, 'assets/images/game/progress-bar/barHorizontal_green_right.png');
+    this.load.image(AssetKey.UI_BUTTON, 'assets/images/game/metalPanel.png');
+    this.load.image(AssetKey.MONITOR_ALT, 'assets/images/game/computerMonitorAlt.png');
+    this.load.spritesheet(AssetKey.ICONS, 'assets/images/game/iconsDouble.png', {
       frameWidth: 128,
       frameHeight: 128,
     });
@@ -33,12 +33,12 @@ export default class PreloadScene extends BaseScene {
     // load assets for progress bar
     this.load.image(
       AssetKey.HEALTH_BAR_LEFT_CAP_SHADOW,
-      '/assets/images/game/progress-bar/barHorizontal_shadow_left.png',
+      'assets/images/game/progress-bar/barHorizontal_shadow_left.png',
     );
-    this.load.image(AssetKey.HEALTH_BAR_MIDDLE_SHADOW, '/assets/images/game/progress-bar/barHorizontal_shadow_mid.png');
+    this.load.image(AssetKey.HEALTH_BAR_MIDDLE_SHADOW, 'assets/images/game/progress-bar/barHorizontal_shadow_mid.png');
     this.load.image(
       AssetKey.HEALTH_BAR_RIGHT_CAP_SHADOW,
-      '/assets/images/game/progress-bar/barHorizontal_shadow_right.png',
+      'assets/images/game/progress-bar/barHorizontal_shadow_right.png',
     );
   }
 
