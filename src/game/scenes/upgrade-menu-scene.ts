@@ -114,6 +114,8 @@ export default class UpgradeMenuScene extends BaseScene {
   public resize(gameSize: Phaser.Structs.Size): void {
     super.resize(gameSize);
 
+    const { width, height } = gameSize;
+
     // resize the background menu to fit the game size
     if (this.backgroundMenu) {
       Align.scaleGameObjectToGameSize(this.backgroundMenu, gameSize, 0.8);
@@ -121,6 +123,7 @@ export default class UpgradeMenuScene extends BaseScene {
     }
 
     if (this.iconsContainer) {
+      this.iconsContainer.setScale(1 * (width / height));
       this.grid.placeGameObjectAtIndex(17.5, this.iconsContainer);
     }
   }
