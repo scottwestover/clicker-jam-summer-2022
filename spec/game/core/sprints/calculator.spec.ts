@@ -22,4 +22,10 @@ describe('Calculator', () => {
       expect(Calculator.add(-1, 1)).toBe(0);
     });
   });
+
+  describe('subtract', () => {
+    it('should subtract two numbers 1', () => {
+      expect(Calculator.add(2, 0)).toBe(2);
+    });
+  });
 });

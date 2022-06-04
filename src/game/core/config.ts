@@ -1,18 +1,20 @@
 import type { LevelConfig } from './types';
-import * as Calculator from './sprints/calculator';
+import Data from './data';
 
 const levelConfiguration: {
   [key: string]: LevelConfig;
 } = {
   1: {
-    functionText: Calculator.addFunctionText,
-    taskText: '// Task: Calculator - Add two numbers',
+    functionText: Data.calculator.add.text,
+    functionTests: Data.calculator.add.tests,
+    taskText: Data.calculator.add.task,
     storyPoints: 10,
     experienceReward: 1,
   },
   2: {
-    functionText: Calculator.subtractFunctionText,
-    taskText: '// Task: Calculator - Subtract two numbers',
+    functionText: Data.calculator.subtract.text,
+    functionTests: Data.calculator.subtract.tests,
+    taskText: Data.calculator.subtract.task,
     storyPoints: 20,
     experienceReward: 2,
   },

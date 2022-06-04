@@ -1,33 +1,10 @@
-// functions for simple calculator
-// add
-// subtract
-// multiply
-// divide
-// clear
-// remainder
-// percentage
-// square
-// square root
-
 export function add(a: number, b: number): number {
   return a + b;
 }
 
-export const addFunctionText = `
-  function add(a: number, b: number): number {
-    return a + b;
-  }
-`;
-
 export function subtract(a: number, b: number): number {
   return a - b;
 }
-
-export const subtractFunctionText = `
-  function subtract(a: number, b: number): number {
-    return a - b;
-  }
-`;
 
 export function multiply(a: number, b: number): number {
   return a * b;

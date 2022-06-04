@@ -125,6 +125,15 @@ export default class GameScene extends BaseScene {
       this,
     );
 
+    // listen for level changed events
+    EventCenter.emitter.on(
+      EventCenter.SupportedEvents.LEVEL_CHANGED,
+      () => {
+        this.progressBar.setMeterPercentage(0);
+      },
+      this,
+    );
+
     // place current experience in the ui
     this.currentExperienceText = this.add.text(
       0,
@@ -258,6 +267,9 @@ export default class GameScene extends BaseScene {
     if (this.taskHintText) {
       this.taskHintText.setText(this.idleGame.currentLevelTaskText);
     }
+    if (this.tpsText) {
+      this.tpsText.setText(`TPPS: ${this.idleGame.player.dps}`);
+    }
     if (this.currentTaskText) {
       // calculate the remaining progress for the current level (task)
       const storyPointsRemaining = this.idleGame.currentLevelStoryPoints / this.idleGame.maxLevelStoryPoints;
@@ -328,12 +340,13 @@ export default class GameScene extends BaseScene {
       defaultImageKey: AssetKey.UI_BUTTON,
       hoverButtonImageKey: AssetKey.UI_BUTTON,
       clickCallBack: () => {
-        if (this.isMenuShown) {
-          this.scene.stop(SceneKeys.UPGRADE_MENU_SCENE);
-        } else {
+        if (!this.isMenuShown) {
           this.scene.launch(SceneKeys.UPGRADE_MENU_SCENE);
+          this.isMenuShown = true;
+        } else {
+          this.scene.setVisible(true, SceneKeys.UPGRADE_MENU_SCENE);
+          this.scene.setActive(true, SceneKeys.UPGRADE_MENU_SCENE);
         }
-        this.isMenuShown = !this.isMenuShown;
       },
     });
     this.upgradesButtonContainer.add(this.upgradesButton.image);

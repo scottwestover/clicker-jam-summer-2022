@@ -14,7 +14,7 @@ export default class Player {
   #upgrades: Upgrades;
 
   constructor() {
-    this.#clickDamage = 1;
+    this.#clickDamage = 8;
     this.#dps = 0;
     this.#experience = 0;
     this.#upgrades = {

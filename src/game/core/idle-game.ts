@@ -1,3 +1,4 @@
+import * as GameUtils from '@devshareacademy/common-game-utils';
 import Player from './player';
 import { levelConfiguration } from './config';
 import * as EventCenter from '../../lib/events/event-center';
@@ -9,6 +10,8 @@ export class IdleGame {
   #level: number;
   #currentLevelStoryPoints: number;
   #currentLevelFunctionText: string;
+  #currentLevelFunctionTestsText: string[];
+  #currentLevelFunctionTestText: string;
   #currentLevelTaskText: string;
   #currentLevelExperienceReward: number;
   #maxLevelStoryPoints: number;
@@ -37,6 +40,8 @@ export class IdleGame {
     this.#currentLevelFunctionText = '';
     this.#currentLevelTaskText = '';
     this.#currentLevelExperienceReward = 0;
+    this.#currentLevelFunctionTestsText = [];
+    this.#currentLevelFunctionTestText = '';
 
     this.loadLevelConfiguration();
   }
@@ -70,7 +75,10 @@ export class IdleGame {
   }
 
   get currentLevelFunctionText(): string {
-    return this.#currentLevelFunctionText;
+    if (this.#tasksCompleted === 0 && this.#maxLevelCompleted < this.#level) {
+      return this.#currentLevelFunctionText;
+    }
+    return this.#currentLevelFunctionTestText;
   }
 
   get currentLevelTaskText(): string {
@@ -86,7 +94,6 @@ export class IdleGame {
 
   public handlePlayerClick(damage?: number): void {
     if (damage) {
-      console.log(damage);
       this.#currentLevelStoryPoints -= damage;
     } else {
       this.#currentLevelStoryPoints -= this.#player.clickDamage;
@@ -97,7 +104,7 @@ export class IdleGame {
       EventCenter.emitter.emit(
         EventCenter.SupportedEvents.GAINED_EXPERIENCE,
         this.#currentLevelExperienceReward,
-        this.#currentLevelFunctionText,
+        this.currentLevelFunctionText,
       );
       this.player.addExperience(this.#currentLevelExperienceReward);
 
@@ -105,6 +112,12 @@ export class IdleGame {
       this.#tasksCompleted++;
       // reset current level story points
       this.#currentLevelStoryPoints = this.#maxLevelStoryPoints;
+      // update test test text
+      this.#currentLevelFunctionTestText =
+        this.#currentLevelFunctionTestsText[
+          GameUtils.random.between(0, this.#currentLevelFunctionTestsText.length - 1)
+        ];
+
       // check if level is complete so player is able to move to next level
       if (this.#tasksCompleted >= this.#requiredTasksToCompleteLevel && this.#maxLevelCompleted < this.#level) {
         this.#maxLevelCompleted = this.#level;
@@ -136,6 +149,9 @@ export class IdleGame {
     }
     // reset current level story points
     this.#currentLevelStoryPoints = this.#maxLevelStoryPoints;
+
+    // emit message about level change
+    EventCenter.emitter.emit(EventCenter.SupportedEvents.LEVEL_CHANGED);
   }
 
   private loadLevelConfiguration(): void {
@@ -146,6 +162,7 @@ export class IdleGame {
       this.#currentLevelFunctionText = levelConfig.functionText;
       this.#currentLevelTaskText = levelConfig.taskText;
       this.#currentLevelExperienceReward = levelConfig.experienceReward;
+      this.#currentLevelFunctionTestsText = levelConfig.functionTests;
     } else {
       console.log('level configuration not found');
     }

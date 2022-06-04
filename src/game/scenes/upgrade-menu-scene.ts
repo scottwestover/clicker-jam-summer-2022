@@ -25,7 +25,22 @@ export default class UpgradeMenuScene extends BaseScene {
 
     const player = IdleGame.getInstance().player;
 
-    this.backgroundMenu = this.add.image(0, 0, AssetKey.MONITOR_ALT).setOrigin(0.5);
+    // create a transparent background for closing the menu
+    const bg = this.add
+      .rectangle(0, 0, this.scale.gameSize.width * 2, this.scale.gameSize.height * 2, 0x000000)
+      .setAlpha(0.1)
+      .setInteractive();
+
+    bg.on(
+      Phaser.Input.Events.POINTER_DOWN as string,
+      () => {
+        this.scene.setVisible(false);
+        this.scene.setActive(false);
+      },
+      this,
+    );
+
+    this.backgroundMenu = this.add.image(0, 0, AssetKey.MONITOR_ALT).setOrigin(0.5).setInteractive();
     this.backgroundMenu.setAlpha(1);
 
     this.iconsContainer = this.add.container();
