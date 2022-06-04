@@ -12,6 +12,8 @@ export default class UpgradeMenuScene extends BaseScene {
   private iconsContainer!: Phaser.GameObjects.Container;
   private coreSkillText!: Phaser.GameObjects.Text;
   private coreDpsSkillText!: Phaser.GameObjects.Text;
+  private currentExperienceText!: Phaser.GameObjects.Text;
+  private player!: Player;
 
   constructor() {
     super({
@@ -23,7 +25,7 @@ export default class UpgradeMenuScene extends BaseScene {
   public create(): void {
     this.sceneSetup();
 
-    const player = IdleGame.getInstance().player;
+    this.player = IdleGame.getInstance().player;
 
     // create a transparent background for closing the menu
     const bg = this.add
@@ -49,34 +51,37 @@ export default class UpgradeMenuScene extends BaseScene {
     const coreSkillContainer = this.add.container();
     const coreSkillIcon = this.add.image(0, 0, AssetKey.ICONS, 0).setOrigin(0.5, 0);
     this.coreSkillText = this.add
-      .text(coreSkillIcon.displayWidth, 0, `Lvl: ${player.upgrades[1].level}`, Config.UI_PHASER_TEXT_STYLE)
+      .text(coreSkillIcon.displayWidth, 0, `Lvl: ${this.player.upgrades[1].level}`, Config.UI_PHASER_TEXT_STYLE)
       .setOrigin(0, 0.5);
     const coreSkillDescriptionText = this.add
       .text(coreSkillIcon.displayWidth, 0, 'Dev Skills', Config.UI_PHASER_TEXT_STYLE)
       .setOrigin(0, -1);
-    const coreSkillBuyButton = this.createPlayButton(player, () => {
-      if (player.experience >= 4) {
-        player.addToClickDamage(1);
-        player.addExperience(-4);
-        player.upgrades[1].level += 1;
-      }
-    });
-    coreSkillBuyButton.setPosition(
-      coreSkillDescriptionText.displayWidth * 2.5 + coreSkillDescriptionText.x + 10,
-      coreSkillDescriptionText.y * 2,
-    );
     const coreSkillCostText = this.add
       .text(
         coreSkillDescriptionText.displayWidth * 2 + coreSkillDescriptionText.x,
         coreSkillDescriptionText.y * 2 + 25,
-        `Cost: 4exp`,
+        `Cost: ${this.player.upgrades[1].currentCost}exp`,
         {
           ...Config.UI_PHASER_TEXT_STYLE,
           fontSize: '42px',
         },
       )
       .setOrigin(0, -1);
+    const coreSkillBuyButton = this.createPlayButton(this.player, () => {
+      // TODO: add logic to prevent click and disable button if not enough money
+      const bought = this.player.buyUpgrade(1);
+      if (bought) {
+        this.coreSkillText.setText(`Lvl: ${this.player.upgrades[1].level}`);
+        coreSkillCostText.setText(`Cost: ${this.player.upgrades[1].currentCost}exp`);
+      }
+    });
+    coreSkillBuyButton.setPosition(
+      coreSkillDescriptionText.displayWidth * 2.5 + coreSkillDescriptionText.x + 10,
+      coreSkillDescriptionText.y * 2,
+    );
     coreSkillBuyButton.setScale(2, 1.25);
+
+    // add to container
     coreSkillContainer.add(coreSkillIcon);
     coreSkillContainer.add(this.coreSkillText);
     coreSkillContainer.add(coreSkillDescriptionText);
@@ -88,40 +93,51 @@ export default class UpgradeMenuScene extends BaseScene {
     const coreDpsSkillContainer = this.add.container(0, 250);
     const coreDpsSkillIcon = this.add.image(0, 0, AssetKey.ICONS, 0).setOrigin(0.5, 0);
     this.coreDpsSkillText = this.add
-      .text(coreDpsSkillIcon.displayWidth, 0, `Lvl: ${player.upgrades[2].level}`, Config.UI_PHASER_TEXT_STYLE)
+      .text(coreDpsSkillIcon.displayWidth, 0, `Lvl: ${this.player.upgrades[2].level}`, Config.UI_PHASER_TEXT_STYLE)
       .setOrigin(0, 0.5);
     const coreDpsSkillDescriptionText = this.add
       .text(coreDpsSkillIcon.displayWidth, 0, 'AI Skill', Config.UI_PHASER_TEXT_STYLE)
       .setOrigin(0, -1);
-    const coreDpsSkillBuyButton = this.createPlayButton(player, () => {
-      if (player.experience >= 1) {
-        player.addToDps(1);
-        player.addExperience(-1);
-        player.upgrades[2].level += 1;
-      }
-    });
-    coreDpsSkillBuyButton.setPosition(
-      coreDpsSkillDescriptionText.displayWidth * 2.5 + coreDpsSkillDescriptionText.x + 10,
-      coreDpsSkillDescriptionText.y * 2,
-    );
     const coreDpsSkillCostText = this.add
       .text(
         coreDpsSkillDescriptionText.displayWidth * 2 + coreDpsSkillDescriptionText.x,
         coreDpsSkillDescriptionText.y * 2 + 25,
-        `Cost: 4exp`,
+        `Cost: ${this.player.upgrades[2].currentCost}exp`,
         {
           ...Config.UI_PHASER_TEXT_STYLE,
           fontSize: '42px',
         },
       )
       .setOrigin(0, -1);
+    const coreDpsSkillBuyButton = this.createPlayButton(this.player, () => {
+      // TODO: add logic to prevent click and disable button if not enough money
+      const bought = this.player.buyUpgrade(2);
+      if (bought) {
+        this.coreDpsSkillText.setText(`Lvl: ${this.player.upgrades[2].level}`);
+        coreDpsSkillCostText.setText(`Cost: ${this.player.upgrades[2].currentCost}exp`);
+      }
+    });
+    coreDpsSkillBuyButton.setPosition(
+      coreDpsSkillDescriptionText.displayWidth * 2.5 + coreDpsSkillDescriptionText.x + 10,
+      coreDpsSkillDescriptionText.y * 2,
+    );
     coreDpsSkillBuyButton.setScale(2, 1.25);
+
+    // add to container
     coreDpsSkillContainer.add(coreDpsSkillIcon);
     coreDpsSkillContainer.add(this.coreDpsSkillText);
     coreDpsSkillContainer.add(coreDpsSkillDescriptionText);
     coreDpsSkillContainer.add(coreDpsSkillBuyButton);
     coreDpsSkillContainer.add(coreDpsSkillCostText);
     this.iconsContainer.add(coreDpsSkillContainer);
+
+    // place experience in ui
+    this.currentExperienceText = this.add.text(
+      0,
+      0,
+      `Current EXP: ${this.player.experience}`,
+      Config.MONITOR_TASK_PROGRESS_PHASER_TEXT_STYLE,
+    );
 
     this.resize(this.scale.gameSize);
   }
@@ -141,6 +157,12 @@ export default class UpgradeMenuScene extends BaseScene {
       this.iconsContainer.setScale(1 * (width / height));
       this.grid.placeGameObjectAtIndex(17.5, this.iconsContainer);
     }
+
+    // resize experience text
+    if (this.currentExperienceText) {
+      Align.scaleGameObjectToGameWidth(this.currentExperienceText, this.sceneWidth, 0.3);
+      this.grid.placeGameObjectAtIndex(167, this.currentExperienceText);
+    }
   }
 
   public update(): void {
@@ -149,6 +171,9 @@ export default class UpgradeMenuScene extends BaseScene {
     }
     if (this.coreDpsSkillText) {
       this.coreDpsSkillText.setText(`Lvl: ${IdleGame.getInstance().player.upgrades[2].level}`);
+    }
+    if (this.currentExperienceText) {
+      this.currentExperienceText.setText(`Current EXP: ${this.player.experience}`);
     }
   }
 

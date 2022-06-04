@@ -1,8 +1,8 @@
-import type { LevelConfig } from './types';
+import type { LevelConfig, UpgradeConfig } from './types';
 import Data from './data';
 
 const levelConfiguration: {
-  [key: string]: LevelConfig;
+  [key: number]: LevelConfig;
 } = {
   1: {
     functionText: Data.calculator.add.text,
@@ -20,22 +20,14 @@ const levelConfiguration: {
   },
 };
 
-const upgradeConfiguration = {
-  upgrade1: {
-    1: {
-      cost: 5,
-    },
-    2: {
-      cost: 10,
-    },
+const upgradeConfiguration: {
+  [key: number]: UpgradeConfig;
+} = {
+  1: {
+    baseCost: 5,
   },
-  upgrade2: {
-    1: {
-      cost: 10,
-    },
-    2: {
-      cost: 20,
-    },
+  2: {
+    baseCost: 50,
   },
 };
 

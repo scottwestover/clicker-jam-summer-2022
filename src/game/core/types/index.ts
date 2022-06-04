@@ -5,3 +5,7 @@ export type LevelConfig = {
   storyPoints: number;
   experienceReward: number;
 };
+
+export type UpgradeConfig = {
+  baseCost: number;
+};
