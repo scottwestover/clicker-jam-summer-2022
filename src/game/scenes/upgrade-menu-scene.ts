@@ -12,6 +12,7 @@ export default class UpgradeMenuScene extends BaseScene {
   private iconsContainer!: Phaser.GameObjects.Container;
   private coreSkillText!: Phaser.GameObjects.Text;
   private coreDpsSkillText!: Phaser.GameObjects.Text;
+  private coreDps2SkillText!: Phaser.GameObjects.Text;
   private currentExperienceText!: Phaser.GameObjects.Text;
   private player!: Player;
 
@@ -205,7 +206,7 @@ export default class UpgradeMenuScene extends BaseScene {
     // add icon for dps upgrade skill
     const coreDpsSkillContainer = this.add.container(0, 500);
     const coreDpsSkillIcon = this.add.image(0, 0, AssetKey.GAMEPAD).setOrigin(0.5, 0);
-    this.coreDpsSkillText = this.add
+    this.coreDps2SkillText = this.add
       .text(coreDpsSkillIcon.displayWidth, 0, `Lvl: ${this.player.upgrades[3].level}`, Config.UI_PHASER_TEXT_STYLE)
       .setOrigin(0, 0.5);
     const coreDpsSkillDescriptionText = this.add
@@ -224,9 +225,9 @@ export default class UpgradeMenuScene extends BaseScene {
       .setOrigin(0, -1);
     const coreDpsSkillBuyButton = this.createPlayButton(this.player, () => {
       // TODO: add logic to prevent click and disable button if not enough money
-      const bought = this.player.buyUpgrade(2);
+      const bought = this.player.buyUpgrade(3);
       if (bought) {
-        this.coreDpsSkillText.setText(`Lvl: ${this.player.upgrades[3].level}`);
+        this.coreDps2SkillText.setText(`Lvl: ${this.player.upgrades[3].level}`);
         coreDpsSkillCostText.setText(`Cost: ${this.player.upgrades[3].currentCost}exp`);
       }
     });
@@ -238,7 +239,7 @@ export default class UpgradeMenuScene extends BaseScene {
 
     // add to container
     coreDpsSkillContainer.add(coreDpsSkillIcon);
-    coreDpsSkillContainer.add(this.coreDpsSkillText);
+    coreDpsSkillContainer.add(this.coreDps2SkillText);
     coreDpsSkillContainer.add(coreDpsSkillDescriptionText);
     coreDpsSkillContainer.add(coreDpsSkillBuyButton);
     coreDpsSkillContainer.add(coreDpsSkillCostText);

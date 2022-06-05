@@ -3,6 +3,19 @@ import Player from './player';
 import { levelConfiguration } from './config';
 import * as EventCenter from '../../lib/events/event-center';
 
+type IdleGameData = {
+  player: {
+    dps: number;
+    experience: number;
+    damage: number;
+    upgrades: { [key: number]: number };
+  };
+  tasksCompleted: number;
+  maxLevelTasksCompleted: number;
+  maxLevelCompleted: number;
+  currentLevel: number;
+};
+
 export class IdleGame {
   private static instance: IdleGame;
 
@@ -19,6 +32,7 @@ export class IdleGame {
   #requiredTasksToCompleteLevel = 10;
   #maxLevelCompleted: number;
   #maxLevelTasksCompleted: number;
+  #storage!: GameUtils.Storage;
 
   public static getInstance(): IdleGame {
     if (!IdleGame.instance) {
@@ -29,6 +43,13 @@ export class IdleGame {
   }
 
   private constructor() {
+    try {
+      this.#storage = new GameUtils.storage.LocalStorage();
+    } catch (error) {
+      console.log('local storage not available');
+      EventCenter.emitter.emit(EventCenter.SupportedEvents.STORAGE_NOT_AVAILABLE);
+    }
+
     this.#player = new Player();
     this.#tasksCompleted = 0;
     this.#maxLevelCompleted = 0;
@@ -43,6 +64,7 @@ export class IdleGame {
     this.#currentLevelFunctionTestsText = [];
     this.#currentLevelFunctionTestText = '';
 
+    this.loadGame();
     this.loadLevelConfiguration();
   }
 
@@ -140,6 +162,64 @@ export class IdleGame {
     this.handleLevelChange();
   }
 
+  public saveGame(): void {
+    const upgrades = this.#player.upgrades;
+    const data: IdleGameData = {
+      player: {
+        damage: this.#player.clickDamage,
+        dps: this.#player.dps,
+        experience: this.#player.experience,
+        upgrades: {
+          1: upgrades[1].level,
+          2: upgrades[2].level,
+          3: upgrades[3].level,
+        },
+      },
+      tasksCompleted: this.#tasksCompleted,
+      maxLevelTasksCompleted: this.#maxLevelTasksCompleted,
+      maxLevelCompleted: this.#maxLevelCompleted,
+      currentLevel: this.#level,
+    };
+
+    if (this.#maxLevelCompleted < this.#level) {
+      data.maxLevelTasksCompleted = this.#tasksCompleted;
+    }
+
+    if (this.#storage) {
+      this.#storage.set('idle_programmer_data', JSON.stringify(data));
+      EventCenter.emitter.emit(EventCenter.SupportedEvents.GAME_SAVED);
+    }
+  }
+
+  private loadGame(): void {
+    if (this.#storage) {
+      const data = this.#storage.get('idle_programmer_data');
+      if (data) {
+        try {
+          const parsedData = JSON.parse(data) as IdleGameData;
+          if (parsedData) {
+            this.#tasksCompleted = parsedData.tasksCompleted;
+            this.#maxLevelTasksCompleted = parsedData.maxLevelTasksCompleted;
+            this.#maxLevelCompleted = parsedData.maxLevelCompleted;
+            this.#player.clickDamage = parsedData.player.damage;
+            this.#player.dps = parsedData.player.dps;
+            this.#player.experience = parsedData.player.experience;
+            this.#player.setUpgradeLevel(1, parsedData.player.upgrades[1]);
+            this.#player.setUpgradeLevel(2, parsedData.player.upgrades[2]);
+            this.#player.setUpgradeLevel(3, parsedData.player.upgrades[3]);
+            this.#level = parsedData.currentLevel;
+          }
+        } catch (error) {
+          console.log((error as Error).message);
+        }
+      } else {
+        console.log('no data found');
+      }
+    } else {
+      console.log('local storage not available');
+    }
+  }
+
   private handleLevelChange(): void {
     // load level configuration
     this.loadLevelConfiguration();
@@ -160,10 +240,15 @@ export class IdleGame {
     this.#currentLevelStoryPoints = storyPoints;
     this.#maxLevelStoryPoints = storyPoints;
     this.#currentLevelExperienceReward = this.calculateRequiredExperience(this.#maxLevelStoryPoints);
+
     if (levelConfig) {
       this.#currentLevelFunctionText = levelConfig.functionText;
       this.#currentLevelTaskText = levelConfig.taskText;
       this.#currentLevelFunctionTestsText = levelConfig.functionTests;
+      this.#currentLevelFunctionTestText =
+        this.#currentLevelFunctionTestsText[
+          GameUtils.random.between(0, this.#currentLevelFunctionTestsText.length - 1)
+        ];
     } else {
       console.log('level configuration not found, fall back to last level configuration');
     }

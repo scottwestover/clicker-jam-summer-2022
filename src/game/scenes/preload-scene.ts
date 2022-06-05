@@ -44,6 +44,7 @@ export default class PreloadScene extends BaseScene {
     this.load.image(AssetKey.GAMEPAD, 'assets/images/ui/gamepad.png');
     this.load.image(AssetKey.SINGLE_PLAYER, 'assets/images/ui/singleplayer.png');
     this.load.image(AssetKey.MULTIPLAYER, 'assets/images/ui/multiplayer.png');
+    this.load.image(AssetKey.SAVE, 'assets/images/ui/save.png');
 
     // load assets for progress bar
     this.load.image(
@@ -63,7 +64,7 @@ export default class PreloadScene extends BaseScene {
 
   public sceneFadeOutComplete(): void {
     this.scene.launch(SceneKeys.AUDIO_MANAGER_SCENE);
-    this.scene.start(SceneKeys.TITLE_SCENE);
-    // this.scene.start(SceneKeys.UPGRADE_MENU_SCENE);
+    // this.scene.start(SceneKeys.TITLE_SCENE);
+    this.scene.start(SceneKeys.GAME_SCENE);
   }
 }

@@ -25,6 +25,7 @@ enum AssetKey {
   SINGLE_PLAYER = 'single-player',
   MULTIPLAYER = 'multiplayer',
   GAMEPAD = 'gamepad',
+  SAVE = 'save',
 }
 
 export default AssetKey;

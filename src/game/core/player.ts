@@ -1,6 +1,6 @@
 import { upgradeConfiguration } from './config';
 
-type Upgrade = {
+export type Upgrade = {
   level: number;
   baseCost: number;
   currentCost: number;
@@ -28,16 +28,35 @@ export default class Player {
     return this.#clickDamage;
   }
 
+  set clickDamage(value: number) {
+    this.#clickDamage = value;
+  }
+
   get dps(): number {
     return this.#dps;
+  }
+
+  set dps(value: number) {
+    this.#dps = value;
   }
 
   get experience(): number {
     return this.#experience;
   }
 
+  set experience(value: number) {
+    this.#experience = value;
+  }
+
   get upgrades(): { [key: number]: Upgrade } {
     return this.#upgrades;
+  }
+
+  public setUpgradeLevel(upgradeId: number, level: number): void {
+    this.#upgrades[upgradeId].level = level;
+    if (level > 0) {
+      this.#upgrades[upgradeId].currentCost = this.getUpgradeCost(upgradeId);
+    }
   }
 
   public addToClickDamage(amount: number): void {
@@ -67,6 +86,13 @@ export default class Player {
       upgrade.currentCost = this.getUpgradeCost(upgradeId);
 
       this.#dps += this.getDpsChange(upgradeId);
+
+      if (upgradeId === 1) {
+        this.addToClickDamage(1);
+      }
+
+      console.log(this.#upgrades);
+      console.log(this.#clickDamage, this.#dps);
       return true;
     }
 

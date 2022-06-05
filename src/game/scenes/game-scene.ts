@@ -32,6 +32,7 @@ export default class GameScene extends BaseScene {
   private keyboardImage!: Phaser.GameObjects.Image;
   private mouseImage!: Phaser.GameObjects.Image;
   private musicToggleButton!: ToggleButton;
+  private saveImage!: Phaser.GameObjects.Image;
 
   constructor() {
     super({
@@ -91,6 +92,18 @@ export default class GameScene extends BaseScene {
     // place gained experience in the ui
     this.gainedExperienceTextGroup = this.add.group();
 
+    this.saveImage = this.add
+      .image(0, 0, AssetKey.SAVE)
+      .setOrigin(0.5)
+      .setInteractive()
+      .on(
+        Phaser.Input.Events.POINTER_DOWN as string,
+        () => {
+          this.idleGame.saveGame();
+        },
+        this,
+      );
+
     // listen for gained experience events
     EventCenter.emitter.on(
       EventCenter.SupportedEvents.GAINED_EXPERIENCE,
@@ -134,6 +147,22 @@ export default class GameScene extends BaseScene {
       EventCenter.SupportedEvents.LEVEL_CHANGED,
       () => {
         this.progressBar.setMeterPercentage(0);
+      },
+      this,
+    );
+
+    EventCenter.emitter.on(
+      EventCenter.SupportedEvents.STORAGE_NOT_AVAILABLE,
+      () => {
+        this.saveImage.setAlpha(0);
+      },
+      this,
+    );
+
+    EventCenter.emitter.on(
+      EventCenter.SupportedEvents.GAME_SAVED,
+      () => {
+        alert('game saved');
       },
       this,
     );
@@ -215,9 +244,9 @@ export default class GameScene extends BaseScene {
       Align.scaleGameObjectToGameWidth(this.tpsText, this.sceneWidth, 0.1);
       this.grid.placeGameObjectAtIndex(52, this.tpsText);
       if (GameUtils.mobile.isMobileDevice(window.navigator)) {
-        this.tpsText.y += 10;
+        this.tpsText.y += 20;
       } else {
-        this.tpsText.y -= 50;
+        this.tpsText.y -= 80;
       }
     }
     // resize the progress bar
@@ -276,15 +305,22 @@ export default class GameScene extends BaseScene {
     if (this.keyboardImage) {
       Align.scaleGameObjectToGameWidth(this.keyboardImage, this.sceneWidth, 0.5);
       this.grid.placeGameObjectAtIndex(170, this.keyboardImage);
+      this.keyboardImage.y += 60;
     }
     if (this.mouseImage) {
       Align.scaleGameObjectToGameWidth(this.mouseImage, this.sceneWidth, 0.1);
       this.grid.placeGameObjectAtIndex(176, this.mouseImage);
+      this.mouseImage.y += 60;
     }
 
     if (this.musicToggleButton) {
       Align.scaleGameObjectToGameWidth(this.musicToggleButton.image, this.sceneWidth, 0.1);
       this.grid.placeGameObjectAtIndex(13.5, this.musicToggleButton.image);
+    }
+
+    if (this.saveImage) {
+      Align.scaleGameObjectToGameWidth(this.saveImage, this.sceneWidth, 0.1);
+      this.grid.placeGameObjectAtIndex(0.5, this.saveImage);
     }
   }
 
