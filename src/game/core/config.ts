@@ -25,9 +25,9 @@ const levelConfiguration: {
     taskText: Data.calculator.divide.task,
   },
   5: {
-    functionText: Data.calculator.clear.text,
-    functionTests: Data.calculator.clear.tests,
-    taskText: Data.calculator.clear.task,
+    functionText: Data.calculator.sine.text,
+    functionTests: Data.calculator.sine.tests,
+    taskText: Data.calculator.sine.task,
   },
   6: {
     functionText: Data.calculator.square.text,
@@ -49,11 +49,10 @@ const levelConfiguration: {
     functionTests: Data.calculator.remainder.tests,
     taskText: Data.calculator.remainder.task,
   },
-  // TODO: add some type of boss level
   10: {
-    functionText: Data.calculator.percentage.text,
-    functionTests: Data.calculator.percentage.tests,
-    taskText: Data.calculator.percentage.task,
+    functionText: Data.calculator.clear.text,
+    functionTests: Data.calculator.clear.tests,
+    taskText: Data.calculator.clear.task,
   },
 };
 

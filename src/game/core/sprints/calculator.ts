@@ -33,3 +33,7 @@ export function percentage(a: number, b: number): number {
 export function remainder(a: number, b: number): number {
   return a % b;
 }
+
+export function sine(a: number): number {
+  return Math.sin(a);
+}

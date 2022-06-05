@@ -52,30 +52,32 @@ function remainder(a: number, b: number): number {
 }
 `;
 
+const sine = `
+function sine(a: number): number {
+  return Math.sin(a);
+}
+`;
+
 const addTest1 = `
 it('should add two numbers 1', () => {
   expect(Calculator.add(1, 2)).toBe(3);
 });
 `;
-
 const addTest2 = `
 it('should add two numbers 2', () => {
   expect(Calculator.add(1, 3)).toBe(4);
 });
 `;
-
 const addTest3 = `
 it('should add two numbers 3', () => {
   expect(Calculator.add(2, 1)).toBe(3);
 });
 `;
-
 const addTest4 = `
 it('should add two numbers 1', () => {
   expect(Calculator.add(1, 2)).toBe(3);
 });
 `;
-
 const addTest5 = `
 it('should add two numbers 5', () => {
   expect(Calculator.add(-1, 1)).toBe(0);
@@ -84,7 +86,175 @@ it('should add two numbers 5', () => {
 
 const subtractTest1 = `
 it('should subtract two numbers 1', () => {
-  expect(Calculator.add(2, 0)).toBe(2);
+  expect(Calculator.subtract(2, 0)).toBe(2);
+});
+`;
+const subtractTest2 = `
+it('should subtract two numbers 2', () => {
+  expect(Calculator.subtract(2, 1)).toBe(1);
+});
+`;
+const subtractTest3 = `
+it('should subtract two numbers 3', () => {
+  expect(Calculator.subtract(2, 3)).toBe(-1);
+});
+`;
+const subtractTest4 = `
+it('should subtract two numbers 4', () => {
+  expect(Calculator.subtract(22, 1)).toBe(21);
+});
+`;
+const subtractTest5 = `
+it('should subtract two numbers 5', () => {
+  expect(Calculator.subtract(-1, -2)).toBe(1);
+});
+`;
+
+const divideTest1 = `
+it('should divide two numbers 1', () => {
+  expect(Calculator.divide(2, 1)).toBe(2);
+});
+`;
+const divideTest2 = `
+it('should divide two numbers 2', () => {
+  expect(Calculator.divide(4, 2)).toBe(2);
+});
+`;
+const divideTest3 = `
+it('should divide two numbers 3', () => {
+  expect(Calculator.divide(1, 1)).toBe(1);
+});
+`;
+const divideTest4 = `
+it('should divide two numbers 4', () => {
+  expect(Calculator.divide(22, 1)).toBe(22);
+});
+`;
+const divideTest5 = `
+it('should divide two numbers 5', () => {
+  expect(Calculator.divide(-1, -1)).toBe(1);
+});
+`;
+
+const reminderTest1 = `
+it('should remainder two numbers 1', () => {
+  expect(Calculator.remainder(2, 1)).toBe(0);
+});
+`;
+const reminderTest2 = `
+it('should remainder two numbers 2', () => {
+  expect(Calculator.remainder(4, 2)).toBe(0);
+});
+`;
+const reminderTest3 = `
+it('should remainder two numbers 3', () => {
+  expect(Calculator.remainder(1, 1)).toBe(0);
+});
+`;
+const reminderTest4 = `
+it('should remainder two numbers 4', () => {
+  expect(Calculator.remainder(22, 7)).toBe(1);
+});
+`;
+const reminderTest5 = `
+it('should remainder two numbers 5', () => {
+  expect(Calculator.remainder(-1, -1)).toBe(-0);
+});
+`;
+
+const multiplyTest1 = `
+it('should multiply two numbers 1', () => {
+  expect(Calculator.multiply(2, 1)).toBe(2);
+});
+`;
+const multiplyTest2 = `
+it('should multiply two numbers 2', () => {
+  expect(Calculator.multiply(4, 2)).toBe(8);
+});
+`;
+const multiplyTest3 = `
+it('should multiply two numbers 3', () => {
+  expect(Calculator.multiply(1, 1)).toBe(1);
+});
+`;
+const multiplyTest4 = `
+it('should multiply two numbers 4', () => {
+  expect(Calculator.multiply(22, 1)).toBe(22);
+});
+`;
+const multiplyTest5 = `
+it('should multiply two numbers 5', () => {
+  expect(Calculator.multiply(-1, -1)).toBe(1);
+});
+`;
+
+const clearTest1 = `
+it('should clear the calculator', () => {
+  expect(Calculator.clear()).toBeUndefined();
+});
+`;
+
+const squareTest1 = `
+it('should square a number 1', () => {
+  expect(Calculator.square(2)).toBe(4);
+});
+`;
+const squareTest2 = `
+it('should square a number 2', () => {
+  expect(Calculator.square(1)).toBe(1);
+});
+`;
+const squareTest3 = `
+it('should square a number 3', () => {
+  expect(Calculator.square(-1)).toBe(1);
+});
+`;
+const squareTest4 = `
+it('should square a number 4', () => {
+  expect(Calculator.square(3)).toBe(9);
+});
+`;
+const squareTest5 = `
+it('should square a number 5', () => {
+  expect(Calculator.square(1.5)).toBe(2.25);
+});
+`;
+
+const squareRootTest1 = ``;
+const squareRootTest2 = ``;
+const squareRootTest3 = ``;
+const squareRootTest4 = ``;
+const squareRootTest5 = ``;
+
+const percentageTest1 = ``;
+const percentageTest2 = ``;
+const percentageTest3 = ``;
+const percentageTest4 = ``;
+const percentageTest5 = ``;
+
+const sineTest1 = `
+it('should return sine of a number 1', () => {
+  expect(Calculator.sine(1)).toBe(0.8414709848078965);
+});
+`;
+const sineTest2 = `
+it('should return sine of a number 2', () => {
+  expect(Calculator.sine(2)).toBe(0.9092974268256817);
+});
+`;
+const sineTest3 = `
+it('should return sine of a number 3', () => {
+  expect(Calculator.sine(-1)).toBe(-0.8414709848078965);
+});
+`;
+const sineTest4 = `
+it('should return sine of a number 4', () => {
+  expect(Calculator.sine(0)).toBe(0);
+});
+`;
+const sineTest5 = `
+it('should return sine of a number 5', () => {
+  expect(Calculator.sine(1.1)).toBe(0.8912073600614354);
 });
 `;
 
@@ -98,42 +268,47 @@ export default {
     remainder: {
       text: remainder,
       task: '// Task: Calculator - Find the remainder of two numbers',
-      tests: [subtractTest1],
+      tests: [reminderTest1, reminderTest2, reminderTest3, reminderTest4, reminderTest5],
     },
     divide: {
       text: divide,
       task: '// Task: Calculator - Divide two numbers',
-      tests: [subtractTest1],
+      tests: [divideTest1, divideTest2, divideTest3, divideTest4, divideTest5],
     },
     multiply: {
       text: multiply,
       task: '// Task: Calculator - Multiply two numbers',
-      tests: [subtractTest1],
+      tests: [multiplyTest1, multiplyTest2, multiplyTest3, multiplyTest4, multiplyTest5],
     },
     subtract: {
       text: subtract,
       task: '// Task: Calculator - Subtract two numbers',
-      tests: [subtractTest1],
+      tests: [subtractTest1, subtractTest2, subtractTest3, subtractTest4, subtractTest5],
     },
     clear: {
       text: clear,
       task: '// Task: Calculator - Clear the calculator',
-      tests: [subtractTest1],
+      tests: [clearTest1],
     },
     square: {
       text: square,
       task: '// Task: Calculator - Square a number',
-      tests: [subtractTest1],
+      tests: [squareTest1, squareTest2, squareTest3, squareTest4, squareTest5],
     },
     squareRoot: {
       text: squareRoot,
       task: '// Task: Calculator - Find the square root of a number',
-      tests: [subtractTest1],
+      tests: [squareRootTest1, squareRootTest2, squareRootTest3, squareRootTest4, squareRootTest5],
     },
     percentage: {
       text: percentage,
       task: '// Task: Calculator - Find the percentage of two numbers',
-      tests: [subtractTest1],
+      tests: [percentageTest1, percentageTest2, percentageTest3, percentageTest4, percentageTest5],
+    },
+    sine: {
+      text: sine,
+      task: '// Task: Calculator - Find the sine of a number',
+      tests: [sineTest1, sineTest2, sineTest3, sineTest4, sineTest5],
     },
   },
 };
