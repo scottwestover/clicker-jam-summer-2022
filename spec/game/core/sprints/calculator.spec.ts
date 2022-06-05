@@ -160,4 +160,48 @@ describe('Calculator', () => {
       expect(Calculator.square(1.5)).toBe(2.25);
     });
   });
+
+  describe('squareRoot', () => {
+    it('should take the square root a number 1', () => {
+      expect(Calculator.squareRoot(1)).toBe(1);
+    });
+
+    it('should take the square root a number 2', () => {
+      expect(Calculator.squareRoot(4)).toBe(2);
+    });
+
+    it('should take the square root a number 3', () => {
+      expect(Calculator.squareRoot(0)).toBe(0);
+    });
+
+    it('should take the square root a number 4', () => {
+      expect(Calculator.squareRoot(9)).toBe(3);
+    });
+
+    it('should take the square root a number 5', () => {
+      expect(Calculator.squareRoot(2)).toBe(1.4142135623730951);
+    });
+  });
+
+  describe('percentage', () => {
+    it('should take the percentage of two numbers 1', () => {
+      expect(Calculator.percentage(1, 1)).toBe(100);
+    });
+
+    it('should take the percentage of two numbers 2', () => {
+      expect(Calculator.percentage(1, 3)).toBe(33.33333333333333);
+    });
+
+    it('should take the percentage of two numbers 3', () => {
+      expect(Calculator.percentage(3, 1)).toBe(300);
+    });
+
+    it('should take the percentage of two numbers 4', () => {
+      expect(Calculator.percentage(2, 4)).toBe(50);
+    });
+
+    it('should take the percentage of two numbers 5', () => {
+      expect(Calculator.percentage(1, 2)).toBe(50);
+    });
+  });
 });

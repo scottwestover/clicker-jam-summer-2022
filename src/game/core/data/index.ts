@@ -220,17 +220,57 @@ it('should square a number 5', () => {
 });
 `;
 
-const squareRootTest1 = ``;
-const squareRootTest2 = ``;
-const squareRootTest3 = ``;
-const squareRootTest4 = ``;
-const squareRootTest5 = ``;
+const squareRootTest1 = `
+it('should take the square root a number 1', () => {
+  expect(Calculator.squareRoot(1)).toBe(1);
+});
+`;
+const squareRootTest2 = `
+it('should take the square root a number 2', () => {
+  expect(Calculator.squareRoot(4)).toBe(2);
+});
+`;
+const squareRootTest3 = `
+it('should take the square root a number 3', () => {
+  expect(Calculator.squareRoot(0)).toBe(0);
+});
+`;
+const squareRootTest4 = `
+it('should take the square root a number 4', () => {
+  expect(Calculator.squareRoot(9)).toBe(3);
+});
+`;
+const squareRootTest5 = `
+it('should take the square root a number 5', () => {
+  expect(Calculator.squareRoot(2)).toBe(1.4142135623730951);
+});
+`;
 
-const percentageTest1 = ``;
-const percentageTest2 = ``;
-const percentageTest3 = ``;
-const percentageTest4 = ``;
-const percentageTest5 = ``;
+const percentageTest1 = `
+it('should take the percentage of two numbers 1', () => {
+  expect(Calculator.percentage(1, 1)).toBe(100);
+});
+`;
+const percentageTest2 = `
+it('should take the percentage of two numbers 2', () => {
+  expect(Calculator.percentage(1, 3)).toBe(33.33333333333333);
+});
+`;
+const percentageTest3 = `
+it('should take the percentage of two numbers 3', () => {
+  expect(Calculator.percentage(3, 1)).toBe(300);
+});
+`;
+const percentageTest4 = `
+it('should take the percentage of two numbers 4', () => {
+  expect(Calculator.percentage(2, 4)).toBe(50);
+});
+`;
+const percentageTest5 = `
+it('should take the percentage of two numbers 5', () => {
+  expect(Calculator.percentage(1, 2)).toBe(50);
+});
+`;
 
 const sineTest1 = `
 it('should return sine of a number 1', () => {

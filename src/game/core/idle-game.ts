@@ -235,7 +235,7 @@ export class IdleGame {
   }
 
   private loadLevelConfiguration(): void {
-    const levelConfig = levelConfiguration[this.#level];
+    const levelConfig = levelConfiguration[this.#level % 10];
     const storyPoints = this.calculateRequiredStoryPoints(this.#level);
     this.#currentLevelStoryPoints = storyPoints;
     this.#maxLevelStoryPoints = storyPoints;
