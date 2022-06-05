@@ -78,7 +78,7 @@ export class IdleGame {
 
   get tasksCompleted(): number {
     // if current max level completed is higher or equal to the current level, then we know all tasks have been completed previously
-    if (this.#maxLevelCompleted >= this.#level) {
+    if (this.#maxLevelCompleted >= this.#level || this.#level % 10 === 0) {
       return this.#requiredTasksToCompleteLevel;
     }
     return this.#tasksCompleted;
@@ -141,7 +141,10 @@ export class IdleGame {
         ];
 
       // check if level is complete so player is able to move to next level
-      if (this.#tasksCompleted >= this.#requiredTasksToCompleteLevel && this.#maxLevelCompleted < this.#level) {
+      if (
+        (this.#tasksCompleted >= this.#requiredTasksToCompleteLevel || this.#level % 10 === 0) &&
+        this.#maxLevelCompleted < this.#level
+      ) {
         this.#maxLevelCompleted = this.#level;
         this.#maxLevelTasksCompleted = 0;
       }

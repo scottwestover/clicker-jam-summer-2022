@@ -49,7 +49,7 @@ const levelConfiguration: {
     functionTests: Data.calculator.remainder.tests,
     taskText: Data.calculator.remainder.task,
   },
-  10: {
+  0: {
     functionText: Data.calculator.clear.text,
     functionTests: Data.calculator.clear.tests,
     taskText: Data.calculator.clear.task,
