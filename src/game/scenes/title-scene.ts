@@ -1,4 +1,5 @@
 import * as Align from '../../lib/align';
+import ToggleButton from '../../lib/components/toggle-button';
 import AssetKey from '../assets/asset-key';
 import * as Config from '../config';
 import BaseScene from './base-scene';
@@ -11,6 +12,7 @@ export default class TitleScene extends BaseScene {
   private creditsButtonImage!: Phaser.GameObjects.Image;
   private keyboardImage!: Phaser.GameObjects.Image;
   private mouseImage!: Phaser.GameObjects.Image;
+  private musicToggleButton!: ToggleButton;
 
   constructor() {
     super({
@@ -74,6 +76,10 @@ export default class TitleScene extends BaseScene {
     this.keyboardImage = this.add.image(0, 0, AssetKey.KEYBOARD).setOrigin(0.5);
     this.mouseImage = this.add.image(0, 0, AssetKey.MOUSE).setOrigin(0.5);
 
+    this.musicToggleButton = new ToggleButton(this, AssetKey.MUSIC_ON, AssetKey.MUSIC_OFF, 0, 0, () => {
+      this.sound.mute = !this.sound.mute;
+    });
+
     this.resize(this.scale.gameSize);
   }
 
@@ -110,6 +116,11 @@ export default class TitleScene extends BaseScene {
     if (this.mouseImage) {
       Align.scaleGameObjectToGameWidth(this.mouseImage, this.sceneWidth, 0.1);
       this.grid.placeGameObjectAtIndex(191, this.mouseImage);
+    }
+
+    if (this.musicToggleButton) {
+      Align.scaleGameObjectToGameWidth(this.musicToggleButton.image, this.sceneWidth, 0.1);
+      this.grid.placeGameObjectAtIndex(13.5, this.musicToggleButton.image);
     }
   }
 

@@ -14,6 +14,47 @@ const levelConfiguration: {
     functionTests: Data.calculator.subtract.tests,
     taskText: Data.calculator.subtract.task,
   },
+  3: {
+    functionText: Data.calculator.multiply.text,
+    functionTests: Data.calculator.multiply.tests,
+    taskText: Data.calculator.multiply.task,
+  },
+  4: {
+    functionText: Data.calculator.divide.text,
+    functionTests: Data.calculator.divide.tests,
+    taskText: Data.calculator.divide.task,
+  },
+  5: {
+    functionText: Data.calculator.clear.text,
+    functionTests: Data.calculator.clear.tests,
+    taskText: Data.calculator.clear.task,
+  },
+  6: {
+    functionText: Data.calculator.square.text,
+    functionTests: Data.calculator.square.tests,
+    taskText: Data.calculator.square.task,
+  },
+  7: {
+    functionText: Data.calculator.squareRoot.text,
+    functionTests: Data.calculator.squareRoot.tests,
+    taskText: Data.calculator.squareRoot.task,
+  },
+  8: {
+    functionText: Data.calculator.percentage.text,
+    functionTests: Data.calculator.percentage.tests,
+    taskText: Data.calculator.percentage.task,
+  },
+  9: {
+    functionText: Data.calculator.remainder.text,
+    functionTests: Data.calculator.remainder.tests,
+    taskText: Data.calculator.remainder.task,
+  },
+  // TODO: add some type of boss level
+  10: {
+    functionText: Data.calculator.percentage.text,
+    functionTests: Data.calculator.percentage.tests,
+    taskText: Data.calculator.percentage.task,
+  },
 };
 
 const upgradeConfiguration: {
@@ -24,6 +65,9 @@ const upgradeConfiguration: {
   },
   2: {
     baseCost: 50,
+  },
+  3: {
+    baseCost: 250,
   },
 };
 

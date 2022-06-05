@@ -16,7 +16,7 @@ export default class Player {
   };
 
   constructor() {
-    this.#clickDamage = 8;
+    this.#clickDamage = 1;
     this.#dps = 0;
     this.#experience = 0;
     this.#upgrades = {};
@@ -112,6 +112,12 @@ export default class Player {
       baseCost: upgradeConfiguration[2].baseCost,
       currentCost: upgradeConfiguration[2].baseCost,
       baseDps: 5,
+    };
+    this.#upgrades[3] = {
+      level: 0,
+      baseCost: upgradeConfiguration[3].baseCost,
+      currentCost: upgradeConfiguration[3].baseCost,
+      baseDps: 22,
     };
   }
 }

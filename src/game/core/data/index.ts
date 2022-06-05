@@ -98,17 +98,17 @@ export default {
     remainder: {
       text: remainder,
       task: '// Task: Calculator - Find the remainder of two numbers',
-      tests: [],
+      tests: [subtractTest1],
     },
     divide: {
       text: divide,
       task: '// Task: Calculator - Divide two numbers',
-      tests: [],
+      tests: [subtractTest1],
     },
     multiply: {
       text: multiply,
       task: '// Task: Calculator - Multiply two numbers',
-      tests: [],
+      tests: [subtractTest1],
     },
     subtract: {
       text: subtract,
@@ -118,22 +118,22 @@ export default {
     clear: {
       text: clear,
       task: '// Task: Calculator - Clear the calculator',
-      tests: [],
+      tests: [subtractTest1],
     },
     square: {
       text: square,
       task: '// Task: Calculator - Square a number',
-      tests: [],
+      tests: [subtractTest1],
     },
     squareRoot: {
       text: squareRoot,
       task: '// Task: Calculator - Find the square root of a number',
-      tests: [],
+      tests: [subtractTest1],
     },
     percentage: {
       text: percentage,
       task: '// Task: Calculator - Find the percentage of two numbers',
-      tests: [],
+      tests: [subtractTest1],
     },
   },
 };

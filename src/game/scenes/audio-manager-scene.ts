@@ -3,6 +3,8 @@ import AssetKeys from '../assets/asset-key';
 import BaseScene from './base-scene';
 
 export default class AudioManagerScene extends BaseScene {
+  private bgMusic!: Phaser.Sound.BaseSound;
+
   constructor() {
     super({
       key: SceneKeys.AUDIO_MANAGER_SCENE,
@@ -11,10 +13,22 @@ export default class AudioManagerScene extends BaseScene {
   }
 
   public create(): void {
-    const bgMusic = this.sound.add(AssetKeys.BACKGROUND_MUSIC, {
+    this.bgMusic = this.sound.add(AssetKeys.BACKGROUND_MUSIC, {
       loop: true,
-      volume: 0.1,
+      volume: 0.4,
     });
-    bgMusic.play();
+    this.bgMusic.play();
+  }
+
+  public stop(): void {
+    if (this.bgMusic) {
+      this.bgMusic.stop();
+    }
+  }
+
+  public play(): void {
+    if (this.bgMusic) {
+      this.bgMusic.play();
+    }
   }
 }

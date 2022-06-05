@@ -20,6 +20,11 @@ enum AssetKey {
   CREDITS_HOVER = 'credits-hover',
   KEYBOARD = 'keyboard',
   MOUSE = 'mouse',
+  MUSIC_ON = 'music-on',
+  MUSIC_OFF = 'music-off',
+  SINGLE_PLAYER = 'single-player',
+  MULTIPLAYER = 'multiplayer',
+  GAMEPAD = 'gamepad',
 }
 
 export default AssetKey;

@@ -9,6 +9,7 @@ import IdleGame from '../core';
 import { ProgressBar } from '../../lib/components/progress-bar';
 import * as EventCenter from '../../lib/events/event-center';
 import Button from '../../lib/components/button';
+import ToggleButton from '../../lib/components/toggle-button';
 
 export default class GameScene extends BaseScene {
   private monitorScreenImage!: Phaser.GameObjects.Image;
@@ -30,6 +31,7 @@ export default class GameScene extends BaseScene {
   private forwardArrowImage!: Phaser.GameObjects.Image;
   private keyboardImage!: Phaser.GameObjects.Image;
   private mouseImage!: Phaser.GameObjects.Image;
+  private musicToggleButton!: ToggleButton;
 
   constructor() {
     super({
@@ -53,7 +55,7 @@ export default class GameScene extends BaseScene {
 
     // create monitor screen image
     this.monitorScreenImage = this.add.image(0, 0, AssetKey.MONITOR);
-    this.monitorScreenImage.alpha = 0.3;
+    this.monitorScreenImage.setAlpha(1);
     this.monitorScreenImage.setInteractive();
     // eslint-disable-next-line @typescript-eslint/unbound-method
     this.monitorScreenImage.on(Phaser.Input.Events.POINTER_DOWN as string, this.handlePlayerInput, this);
@@ -137,12 +139,9 @@ export default class GameScene extends BaseScene {
     );
 
     // place current experience in the ui
-    this.currentExperienceText = this.add.text(
-      0,
-      0,
-      `EXP: ${this.idleGame.player.experience}`,
-      Config.MONITOR_TASK_PROGRESS_PHASER_TEXT_STYLE,
-    );
+    this.currentExperienceText = this.add
+      .text(0, 0, `EXP: ${this.idleGame.player.experience}`, Config.MONITOR_TASK_PROGRESS_PHASER_TEXT_STYLE)
+      .setOrigin(0.5);
 
     // create upgrades button
     this.createUpgradesButton();
@@ -164,6 +163,10 @@ export default class GameScene extends BaseScene {
 
     this.keyboardImage = this.add.image(0, 0, AssetKey.KEYBOARD).setOrigin(0.5);
     this.mouseImage = this.add.image(0, 0, AssetKey.MOUSE).setOrigin(0.5);
+
+    this.musicToggleButton = new ToggleButton(this, AssetKey.MUSIC_ON, AssetKey.MUSIC_OFF, 0, 0, () => {
+      this.sound.mute = !this.sound.mute;
+    });
 
     this.resize(this.scale.gameSize);
 
@@ -210,33 +213,49 @@ export default class GameScene extends BaseScene {
     // resize tps text
     if (this.tpsText) {
       Align.scaleGameObjectToGameWidth(this.tpsText, this.sceneWidth, 0.1);
-      this.grid.placeGameObjectAtIndex(37, this.tpsText);
-      this.tpsText.y += 50;
+      this.grid.placeGameObjectAtIndex(52, this.tpsText);
+      if (GameUtils.mobile.isMobileDevice(window.navigator)) {
+        this.tpsText.y += 10;
+      } else {
+        this.tpsText.y -= 50;
+      }
     }
     // resize the progress bar
     if (this.progressBar) {
-      this.grid.placeGameObjectAtIndex(50.5, this.progressBar.container);
+      if (GameUtils.mobile.isMobileDevice(window.navigator)) {
+        this.grid.placeGameObjectAtIndex(65.5, this.progressBar.container);
+      } else {
+        this.grid.placeGameObjectAtIndex(50.5, this.progressBar.container);
+      }
     }
+
     if (this.storyPointsRemainingText) {
       Align.scaleGameObjectToGameWidth(this.storyPointsRemainingText, this.sceneWidth, 0.275);
-      this.grid.placeGameObjectAtIndex(48, this.storyPointsRemainingText);
+      if (GameUtils.mobile.isMobileDevice(window.navigator)) {
+        this.grid.placeGameObjectAtIndex(63, this.storyPointsRemainingText);
+      } else {
+        this.grid.placeGameObjectAtIndex(48, this.storyPointsRemainingText);
+      }
     }
 
     // resize function and hint text
     if (this.taskHintText) {
-      Align.scaleGameObjectToGameWidth(this.taskHintText, this.sceneWidth, 0.65);
+      Align.scaleGameObjectToGameWidth(this.taskHintText, this.sceneWidth, 0.6);
       this.grid.placeGameObjectAtIndex(76, this.taskHintText);
     }
     if (this.currentTaskTextGroup) {
-      Align.scaleGameObjectToGameWidth(this.currentTaskText, this.sceneWidth, 0.8);
-      this.currentTaskText.scaleY = this.currentTaskText.scaleX * 1.2;
+      Align.scaleGameObjectToGameWidth(this.currentTaskText, this.sceneWidth, 0.75);
+      this.currentTaskText.scaleY = this.currentTaskText.scaleX * 1.1;
       this.grid.placeGameObjectAtIndex(91, this.currentTaskText);
     }
 
     // resize experience text
     if (this.currentExperienceText) {
       Align.scaleGameObjectToGameWidth(this.currentExperienceText, this.sceneWidth, 0.1);
-      this.grid.placeGameObjectAtIndex(136, this.currentExperienceText);
+      this.grid.placeGameObjectAtIndex(137, this.currentExperienceText);
+      if (GameUtils.mobile.isMobileDevice(window.navigator)) {
+        this.currentExperienceText.y -= 50;
+      }
     }
 
     // resize upgrades button
@@ -256,11 +275,16 @@ export default class GameScene extends BaseScene {
 
     if (this.keyboardImage) {
       Align.scaleGameObjectToGameWidth(this.keyboardImage, this.sceneWidth, 0.5);
-      this.grid.placeGameObjectAtIndex(185, this.keyboardImage);
+      this.grid.placeGameObjectAtIndex(170, this.keyboardImage);
     }
     if (this.mouseImage) {
       Align.scaleGameObjectToGameWidth(this.mouseImage, this.sceneWidth, 0.1);
-      this.grid.placeGameObjectAtIndex(191, this.mouseImage);
+      this.grid.placeGameObjectAtIndex(176, this.mouseImage);
+    }
+
+    if (this.musicToggleButton) {
+      Align.scaleGameObjectToGameWidth(this.musicToggleButton.image, this.sceneWidth, 0.1);
+      this.grid.placeGameObjectAtIndex(13.5, this.musicToggleButton.image);
     }
   }
 
@@ -340,7 +364,7 @@ export default class GameScene extends BaseScene {
     textElement.setAlpha(1);
 
     // position the text element in the grid
-    Align.scaleGameObjectToGameWidth(textElement, this.sceneWidth, 0.8);
+    Align.scaleGameObjectToGameWidth(textElement, this.sceneWidth, 0.6);
     textElement.scaleY = textElement.scaleX * 1.2;
     this.grid.placeGameObjectAtIndex(91, textElement);
     return textElement;

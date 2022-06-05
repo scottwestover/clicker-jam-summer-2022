@@ -16,7 +16,10 @@ export default class PreloadScene extends BaseScene {
     this.load.image(AssetKey.TITLE, 'assets/images/ui/title.png');
     this.load.image(AssetKey.MONITOR, 'assets/images/game/computerMonitor.png');
     this.load.atlasXML(AssetKey.UI, 'assets/images/ui/blueSheet.png', 'assets/images/ui/blueSheet.xml');
-    this.load.audio(AssetKey.BACKGROUND_MUSIC, 'assets/audio/rise-and-shine.mp3');
+    this.load.audio(
+      AssetKey.BACKGROUND_MUSIC,
+      'assets/audio/2020-03-22_-_8_Bit_Surf_-_FesliyanStudios.com_-_David_Renda.mp3',
+    );
     this.load.addFile(new WebFontFile(this.load, 'Inconsolata'));
     this.load.image(AssetKey.HEALTH_BAR_LEFT_CAP, 'assets/images/game/progress-bar/barHorizontal_green_left.png');
     this.load.image(AssetKey.HEALTH_BAR_MIDDLE, 'assets/images/game/progress-bar/barHorizontal_green_mid.png');
@@ -35,6 +38,12 @@ export default class PreloadScene extends BaseScene {
     this.load.image(AssetKey.PLAY_HOVER, 'assets/images/ui/PlayHover.png');
     this.load.image(AssetKey.KEYBOARD, 'assets/images/ui/ful-keyboard.png');
     this.load.image(AssetKey.MOUSE, 'assets/images/ui/mouse.png');
+    this.load.image(AssetKey.MUSIC_ON, 'assets/images/ui/musicOn.png');
+    this.load.image(AssetKey.MUSIC_OFF, 'assets/images/ui/musicOff.png');
+
+    this.load.image(AssetKey.GAMEPAD, 'assets/images/ui/gamepad.png');
+    this.load.image(AssetKey.SINGLE_PLAYER, 'assets/images/ui/singleplayer.png');
+    this.load.image(AssetKey.MULTIPLAYER, 'assets/images/ui/multiplayer.png');
 
     // load assets for progress bar
     this.load.image(
@@ -55,6 +64,6 @@ export default class PreloadScene extends BaseScene {
   public sceneFadeOutComplete(): void {
     this.scene.launch(SceneKeys.AUDIO_MANAGER_SCENE);
     this.scene.start(SceneKeys.TITLE_SCENE);
-    // this.scene.start(SceneKeys.GAME_SCENE);
+    // this.scene.start(SceneKeys.UPGRADE_MENU_SCENE);
   }
 }

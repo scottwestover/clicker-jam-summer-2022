@@ -49,7 +49,7 @@ export default class UpgradeMenuScene extends BaseScene {
 
     // add icon for core developer skill
     const coreSkillContainer = this.add.container();
-    const coreSkillIcon = this.add.image(0, 0, AssetKey.ICONS, 0).setOrigin(0.5, 0);
+    const coreSkillIcon = this.add.image(0, 0, AssetKey.SINGLE_PLAYER).setOrigin(0.5, 0);
     this.coreSkillText = this.add
       .text(coreSkillIcon.displayWidth, 0, `Lvl: ${this.player.upgrades[1].level}`, Config.UI_PHASER_TEXT_STYLE)
       .setOrigin(0, 0.5);
@@ -58,7 +58,7 @@ export default class UpgradeMenuScene extends BaseScene {
       .setOrigin(0, -1);
     const coreSkillCostText = this.add
       .text(
-        coreSkillDescriptionText.displayWidth * 2 + coreSkillDescriptionText.x,
+        coreSkillDescriptionText.displayWidth * 1.5 + coreSkillDescriptionText.x,
         coreSkillDescriptionText.y * 2 + 25,
         `Cost: ${this.player.upgrades[1].currentCost}exp`,
         {
@@ -76,10 +76,10 @@ export default class UpgradeMenuScene extends BaseScene {
       }
     });
     coreSkillBuyButton.setPosition(
-      coreSkillDescriptionText.displayWidth * 2.5 + coreSkillDescriptionText.x + 10,
+      coreSkillDescriptionText.displayWidth * 1.5 + coreSkillDescriptionText.x + 105,
       coreSkillDescriptionText.y * 2,
     );
-    coreSkillBuyButton.setScale(2, 1.25);
+    coreSkillBuyButton.setScale(2, 2);
 
     // add to container
     coreSkillContainer.add(coreSkillIcon);
@@ -91,16 +91,16 @@ export default class UpgradeMenuScene extends BaseScene {
 
     // add icon for dps upgrade skill
     const coreDpsSkillContainer = this.add.container(0, 250);
-    const coreDpsSkillIcon = this.add.image(0, 0, AssetKey.ICONS, 0).setOrigin(0.5, 0);
+    const coreDpsSkillIcon = this.add.image(0, 0, AssetKey.MULTIPLAYER).setOrigin(0.5, 0);
     this.coreDpsSkillText = this.add
       .text(coreDpsSkillIcon.displayWidth, 0, `Lvl: ${this.player.upgrades[2].level}`, Config.UI_PHASER_TEXT_STYLE)
       .setOrigin(0, 0.5);
     const coreDpsSkillDescriptionText = this.add
-      .text(coreDpsSkillIcon.displayWidth, 0, 'AI Skill', Config.UI_PHASER_TEXT_STYLE)
+      .text(coreDpsSkillIcon.displayWidth, 0, 'Pair Program', Config.UI_PHASER_TEXT_STYLE)
       .setOrigin(0, -1);
     const coreDpsSkillCostText = this.add
       .text(
-        coreDpsSkillDescriptionText.displayWidth * 2 + coreDpsSkillDescriptionText.x,
+        coreDpsSkillDescriptionText.displayWidth + coreDpsSkillDescriptionText.x + 50,
         coreDpsSkillDescriptionText.y * 2 + 25,
         `Cost: ${this.player.upgrades[2].currentCost}exp`,
         {
@@ -118,10 +118,10 @@ export default class UpgradeMenuScene extends BaseScene {
       }
     });
     coreDpsSkillBuyButton.setPosition(
-      coreDpsSkillDescriptionText.displayWidth * 2.5 + coreDpsSkillDescriptionText.x + 10,
+      coreDpsSkillDescriptionText.displayWidth * 1 + coreDpsSkillDescriptionText.x + 160,
       coreDpsSkillDescriptionText.y * 2,
     );
-    coreDpsSkillBuyButton.setScale(2, 1.25);
+    coreDpsSkillBuyButton.setScale(2, 2);
 
     // add to container
     coreDpsSkillContainer.add(coreDpsSkillIcon);
@@ -139,6 +139,8 @@ export default class UpgradeMenuScene extends BaseScene {
       Config.MONITOR_TASK_PROGRESS_PHASER_TEXT_STYLE,
     );
 
+    this.addAiIcon();
+
     this.resize(this.scale.gameSize);
   }
 
@@ -154,7 +156,7 @@ export default class UpgradeMenuScene extends BaseScene {
     }
 
     if (this.iconsContainer) {
-      this.iconsContainer.setScale(1 * (width / height));
+      this.iconsContainer.setScale(1.3 * (width / height));
       this.grid.placeGameObjectAtIndex(17.5, this.iconsContainer);
     }
 
@@ -197,5 +199,49 @@ export default class UpgradeMenuScene extends BaseScene {
       .setOrigin(0.5);
     container.add(playAgainText);
     return container;
+  }
+
+  private addAiIcon(): void {
+    // add icon for dps upgrade skill
+    const coreDpsSkillContainer = this.add.container(0, 500);
+    const coreDpsSkillIcon = this.add.image(0, 0, AssetKey.GAMEPAD).setOrigin(0.5, 0);
+    this.coreDpsSkillText = this.add
+      .text(coreDpsSkillIcon.displayWidth, 0, `Lvl: ${this.player.upgrades[3].level}`, Config.UI_PHASER_TEXT_STYLE)
+      .setOrigin(0, 0.5);
+    const coreDpsSkillDescriptionText = this.add
+      .text(coreDpsSkillIcon.displayWidth, 0, 'Automation', Config.UI_PHASER_TEXT_STYLE)
+      .setOrigin(0, -1);
+    const coreDpsSkillCostText = this.add
+      .text(
+        coreDpsSkillDescriptionText.displayWidth + coreDpsSkillDescriptionText.x + 100,
+        coreDpsSkillDescriptionText.y * 2 + 25,
+        `Cost: ${this.player.upgrades[3].currentCost}exp`,
+        {
+          ...Config.UI_PHASER_TEXT_STYLE,
+          fontSize: '42px',
+        },
+      )
+      .setOrigin(0, -1);
+    const coreDpsSkillBuyButton = this.createPlayButton(this.player, () => {
+      // TODO: add logic to prevent click and disable button if not enough money
+      const bought = this.player.buyUpgrade(2);
+      if (bought) {
+        this.coreDpsSkillText.setText(`Lvl: ${this.player.upgrades[3].level}`);
+        coreDpsSkillCostText.setText(`Cost: ${this.player.upgrades[3].currentCost}exp`);
+      }
+    });
+    coreDpsSkillBuyButton.setPosition(
+      coreDpsSkillDescriptionText.displayWidth * 1.5 + coreDpsSkillDescriptionText.x + 30,
+      coreDpsSkillDescriptionText.y * 2,
+    );
+    coreDpsSkillBuyButton.setScale(2, 2);
+
+    // add to container
+    coreDpsSkillContainer.add(coreDpsSkillIcon);
+    coreDpsSkillContainer.add(this.coreDpsSkillText);
+    coreDpsSkillContainer.add(coreDpsSkillDescriptionText);
+    coreDpsSkillContainer.add(coreDpsSkillBuyButton);
+    coreDpsSkillContainer.add(coreDpsSkillCostText);
+    this.iconsContainer.add(coreDpsSkillContainer);
   }
 }
