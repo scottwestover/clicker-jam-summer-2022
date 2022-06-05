@@ -29,6 +29,12 @@ export default class PreloadScene extends BaseScene {
     });
     this.load.image(AssetKey.ARROW_LEFT, 'assets/images/ui/arrowLeft.png');
     this.load.image(AssetKey.ARROW_RIGHT, 'assets/images/ui/arrowRight.png');
+    this.load.image(AssetKey.CREDITS, 'assets/images/ui/Credits.png');
+    this.load.image(AssetKey.CREDITS_HOVER, 'assets/images/ui/CreditsHover.png');
+    this.load.image(AssetKey.PLAY, 'assets/images/ui/Play.png');
+    this.load.image(AssetKey.PLAY_HOVER, 'assets/images/ui/PlayHover.png');
+    this.load.image(AssetKey.KEYBOARD, 'assets/images/ui/ful-keyboard.png');
+    this.load.image(AssetKey.MOUSE, 'assets/images/ui/mouse.png');
 
     // load assets for progress bar
     this.load.image(
@@ -48,7 +54,7 @@ export default class PreloadScene extends BaseScene {
 
   public sceneFadeOutComplete(): void {
     this.scene.launch(SceneKeys.AUDIO_MANAGER_SCENE);
-    // this.scene.start(SceneKeys.TITLE_SCENE);
-    this.scene.start(SceneKeys.GAME_SCENE);
+    this.scene.start(SceneKeys.TITLE_SCENE);
+    // this.scene.start(SceneKeys.GAME_SCENE);
   }
 }

@@ -65,8 +65,8 @@ export default class Player {
       this.#experience -= upgrade.currentCost;
       upgrade.level += 1;
       upgrade.currentCost = this.getUpgradeCost(upgradeId);
-      // TODO: add math for the dps increase
-      this.#dps += upgrade.baseDps;
+
+      this.#dps += this.getDpsChange(upgradeId);
       return true;
     }
 
@@ -91,6 +91,15 @@ export default class Player {
     return Math.floor(upgrade.baseCost * Math.pow(1.07, upgrade.level));
   }
 
+  private getDpsChange(upgradeId: number): number {
+    const upgrade = this.#upgrades[upgradeId];
+
+    const staticModifier = 1;
+    const newDps = upgrade.baseDps * upgrade.level * staticModifier;
+    const oldDps = upgrade.baseDps * (upgrade.level - 1) * staticModifier;
+    return newDps - oldDps;
+  }
+
   private loadConfiguration(): void {
     this.#upgrades[1] = {
       level: 0,
@@ -102,7 +111,7 @@ export default class Player {
       level: 0,
       baseCost: upgradeConfiguration[2].baseCost,
       currentCost: upgradeConfiguration[2].baseCost,
-      baseDps: 1,
+      baseDps: 5,
     };
   }
 }

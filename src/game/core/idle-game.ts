@@ -156,15 +156,34 @@ export class IdleGame {
 
   private loadLevelConfiguration(): void {
     const levelConfig = levelConfiguration[this.#level];
+    const storyPoints = this.calculateRequiredStoryPoints(this.#level);
+    this.#currentLevelStoryPoints = storyPoints;
+    this.#maxLevelStoryPoints = storyPoints;
+    this.#currentLevelExperienceReward = this.calculateRequiredExperience(this.#maxLevelStoryPoints);
     if (levelConfig) {
-      this.#currentLevelStoryPoints = levelConfig.storyPoints;
-      this.#maxLevelStoryPoints = levelConfig.storyPoints;
       this.#currentLevelFunctionText = levelConfig.functionText;
       this.#currentLevelTaskText = levelConfig.taskText;
-      this.#currentLevelExperienceReward = levelConfig.experienceReward;
       this.#currentLevelFunctionTestsText = levelConfig.functionTests;
     } else {
-      console.log('level configuration not found');
+      console.log('level configuration not found, fall back to last level configuration');
     }
+  }
+
+  /**
+   * All formulas for the upgrades are based on the following formulas from clicker heroes:
+   * https://clickerheroes.fandom.com/wiki/Formulas#Monster_HP_for_levels
+   */
+  private calculateRequiredStoryPoints(level: number): number {
+    // [10 x (Level - 1 + 1.55^(Level - 1)) x (isBoss x 10)]
+    const isBoss = level % 10 === 0;
+    const storyPoints = 10 * (level - 1 + Math.pow(1.55, level - 1));
+    if (isBoss) {
+      return storyPoints * 10;
+    }
+    return storyPoints;
+  }
+
+  private calculateRequiredExperience(storyPoints: number): number {
+    return Math.ceil(storyPoints / 15);
   }
 }

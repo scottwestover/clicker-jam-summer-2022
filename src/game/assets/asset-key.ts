@@ -14,6 +14,12 @@ enum AssetKey {
   ICONS = 'icons',
   ARROW_LEFT = 'arrow-left',
   ARROW_RIGHT = 'arrow-right',
+  PLAY = 'play',
+  PLAY_HOVER = 'play-hover',
+  CREDITS = 'credits',
+  CREDITS_HOVER = 'credits-hover',
+  KEYBOARD = 'keyboard',
+  MOUSE = 'mouse',
 }
 
 export default AssetKey;

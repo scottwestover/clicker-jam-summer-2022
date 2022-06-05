@@ -28,6 +28,8 @@ export default class GameScene extends BaseScene {
   private isMenuShown = false;
   private backArrowImage!: Phaser.GameObjects.Image;
   private forwardArrowImage!: Phaser.GameObjects.Image;
+  private keyboardImage!: Phaser.GameObjects.Image;
+  private mouseImage!: Phaser.GameObjects.Image;
 
   constructor() {
     super({
@@ -160,6 +162,9 @@ export default class GameScene extends BaseScene {
     this.forwardArrowImage.setInteractive();
     this.forwardArrowImage.on(Phaser.Input.Events.POINTER_DOWN as string, this.handleForwardArrowClick, this);
 
+    this.keyboardImage = this.add.image(0, 0, AssetKey.KEYBOARD).setOrigin(0.5);
+    this.mouseImage = this.add.image(0, 0, AssetKey.MOUSE).setOrigin(0.5);
+
     this.resize(this.scale.gameSize);
 
     // simple animation for having player move to next level
@@ -247,6 +252,15 @@ export default class GameScene extends BaseScene {
     }
     if (this.forwardArrowImage) {
       this.grid.placeGameObjectAtIndex(10, this.forwardArrowImage);
+    }
+
+    if (this.keyboardImage) {
+      Align.scaleGameObjectToGameWidth(this.keyboardImage, this.sceneWidth, 0.5);
+      this.grid.placeGameObjectAtIndex(185, this.keyboardImage);
+    }
+    if (this.mouseImage) {
+      Align.scaleGameObjectToGameWidth(this.mouseImage, this.sceneWidth, 0.1);
+      this.grid.placeGameObjectAtIndex(191, this.mouseImage);
     }
   }
 

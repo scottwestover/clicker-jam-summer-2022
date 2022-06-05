@@ -8,15 +8,11 @@ const levelConfiguration: {
     functionText: Data.calculator.add.text,
     functionTests: Data.calculator.add.tests,
     taskText: Data.calculator.add.task,
-    storyPoints: 10,
-    experienceReward: 1,
   },
   2: {
     functionText: Data.calculator.subtract.text,
     functionTests: Data.calculator.subtract.tests,
     taskText: Data.calculator.subtract.task,
-    storyPoints: 20,
-    experienceReward: 2,
   },
 };
 

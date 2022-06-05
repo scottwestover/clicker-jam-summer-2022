@@ -51,7 +51,9 @@ Any static assets like images or audio files should be placed in the `public` fo
 
 This project uses [auto-changelog](https://github.com/CookPete/auto-changelog) for maintaining the changelog. You can view the Changelog here: [Changelog](CHANGELOG.md).
 
-## Glossary
+## Assets
 
-TPPS: Task Progress Per Second
-TPPC: Task Progress Per Click
+Title Image Generated With: https://textcraft.net/
+Pixel Art Keyboard: https://anjuu.itch.io/1bit-controller
+https://www.kenney.nl/assets/game-icons
+https://www.kenney.nl/assets/ui-pack-space-expansion
