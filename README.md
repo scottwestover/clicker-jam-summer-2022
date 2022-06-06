@@ -14,6 +14,8 @@ This is a game that I created as part of the <a href="https://itch.io/jam/clicke
 
 This game is a simple idle clicker were your goal is to get to the highest level possible by gaining developer experience. You can then use this experience to increase your task progress per second (TPPS). As you complete more and more levels, each level will become more difficult to complete, and you will need to increase your TPPS!
 
+*Note:* This game uses the browser local storage for saving data, and the game relies on manual saves. There is no support for automatic saving at this time. If you save your data, the next time you visit the game, when the game starts it will load your data from thee local browser storage.
+
 The following assets were used in the creation of this game:
 - <a href="https://textcraft.net/" target="_blank">Title Image Generated with Textcraft</a>
 - <a href="https://www.kenney.nl/assets/game-icons" target="_blank">Game Icons: Kennys Assets</a>

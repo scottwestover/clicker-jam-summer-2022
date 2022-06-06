@@ -33,6 +33,7 @@ export default class GameScene extends BaseScene {
   private mouseImage!: Phaser.GameObjects.Image;
   private musicToggleButton!: ToggleButton;
   private saveImage!: Phaser.GameObjects.Image;
+  private gameSaveText!: Phaser.GameObjects.Text;
 
   constructor() {
     super({
@@ -162,7 +163,19 @@ export default class GameScene extends BaseScene {
     EventCenter.emitter.on(
       EventCenter.SupportedEvents.GAME_SAVED,
       () => {
-        alert('game saved');
+        if (this.gameSaveText) {
+          this.gameSaveText.setAlpha(1);
+          this.tweens.add({
+            targets: this.gameSaveText,
+            alpha: 0,
+            duration: 1500,
+            ease: Phaser.Math.Easing.Cubic.Out,
+            onComplete: () => {
+              this.gameSaveText.setAlpha(0);
+            },
+            delay: 500,
+          });
+        }
       },
       this,
     );
@@ -196,6 +209,8 @@ export default class GameScene extends BaseScene {
     this.musicToggleButton = new ToggleButton(this, AssetKey.MUSIC_ON, AssetKey.MUSIC_OFF, 0, 0, () => {
       this.sound.mute = !this.sound.mute;
     });
+
+    this.gameSaveText = this.add.text(0, 0, 'Game Saved!', Config.UI_PHASER_TEXT_STYLE).setAlpha(0);
 
     this.resize(this.scale.gameSize);
 
@@ -321,6 +336,11 @@ export default class GameScene extends BaseScene {
     if (this.saveImage) {
       Align.scaleGameObjectToGameWidth(this.saveImage, this.sceneWidth, 0.1);
       this.grid.placeGameObjectAtIndex(0.5, this.saveImage);
+    }
+
+    if (this.gameSaveText) {
+      Align.scaleGameObjectToGameWidth(this.gameSaveText, this.sceneWidth, 0.2);
+      this.grid.placeGameObjectAtIndex(15, this.gameSaveText);
     }
   }
 
