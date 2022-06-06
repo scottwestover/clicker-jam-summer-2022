@@ -91,8 +91,6 @@ export default class Player {
         this.addToClickDamage(1);
       }
 
-      console.log(this.#upgrades);
-      console.log(this.#clickDamage, this.#dps);
       return true;
     }
 
