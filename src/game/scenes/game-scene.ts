@@ -284,12 +284,11 @@ export default class GameScene extends BaseScene {
 
     // resize function and hint text
     if (this.taskHintText) {
-      Align.scaleGameObjectToGameWidth(this.taskHintText, this.sceneWidth, 0.6);
+      Align.scaleGameObjectToGameWidth(this.taskHintText, this.sceneWidth, 0.5);
       this.grid.placeGameObjectAtIndex(76, this.taskHintText);
     }
     if (this.currentTaskTextGroup) {
-      Align.scaleGameObjectToGameWidth(this.currentTaskText, this.sceneWidth, 0.75);
-      this.currentTaskText.scaleY = this.currentTaskText.scaleX * 1.1;
+      Align.scaleGameObjectToGameWidth(this.currentTaskText, this.sceneWidth, 0.65);
       this.grid.placeGameObjectAtIndex(91, this.currentTaskText);
     }
 
@@ -359,6 +358,7 @@ export default class GameScene extends BaseScene {
     }
     if (this.taskHintText) {
       this.taskHintText.setText(this.idleGame.currentLevelTaskText);
+      Align.scaleGameObjectToGameWidth(this.taskHintText, this.sceneWidth, 0.5);
     }
     if (this.tpsText) {
       this.tpsText.setText(`TPPS: ${this.idleGame.player.dps}`);

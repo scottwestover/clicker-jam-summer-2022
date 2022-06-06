@@ -321,52 +321,52 @@ export default {
   calculator: {
     add: {
       text: add,
-      task: '// Task: Calculator - Add two numbers',
+      task: '// Task: Calculator\n// Add two numbers',
       tests: [addTest1, addTest2, addTest3, addTest4, addTest5],
     },
     remainder: {
       text: remainder,
-      task: '// Task: Calculator - Find the remainder of two numbers',
+      task: '// Task: Calculator\n// Find the remainder of two numbers',
       tests: [reminderTest1, reminderTest2, reminderTest3, reminderTest4, reminderTest5],
     },
     divide: {
       text: divide,
-      task: '// Task: Calculator - Divide two numbers',
+      task: '// Task: Calculator\n// Divide two numbers',
       tests: [divideTest1, divideTest2, divideTest3, divideTest4, divideTest5],
     },
     multiply: {
       text: multiply,
-      task: '// Task: Calculator - Multiply two numbers',
+      task: '// Task: Calculator\n// Multiply two numbers',
       tests: [multiplyTest1, multiplyTest2, multiplyTest3, multiplyTest4, multiplyTest5],
     },
     subtract: {
       text: subtract,
-      task: '// Task: Calculator - Subtract two numbers',
+      task: '// Task: Calculator\n// Subtract two numbers',
       tests: [subtractTest1, subtractTest2, subtractTest3, subtractTest4, subtractTest5],
     },
     clear: {
       text: clear,
-      task: '// Task: Calculator - Clear the calculator',
+      task: '// Task: Calculator\n// Clear the calculator',
       tests: [clearTest1],
     },
     square: {
       text: square,
-      task: '// Task: Calculator - Square a number',
+      task: '// Task: Calculator\n// Square a number',
       tests: [squareTest1, squareTest2, squareTest3, squareTest4, squareTest5],
     },
     squareRoot: {
       text: squareRoot,
-      task: '// Task: Calculator - Find the square root of a number',
+      task: '// Task: Calculator\n// Find the square root of a number',
       tests: [squareRootTest1, squareRootTest2, squareRootTest3, squareRootTest4, squareRootTest5],
     },
     percentage: {
       text: percentage,
-      task: '// Task: Calculator - Find the percentage of two numbers',
+      task: '// Task: Calculator\n// Find the percentage of two numbers',
       tests: [percentageTest1, percentageTest2, percentageTest3, percentageTest4, percentageTest5],
     },
     sine: {
       text: sine,
-      task: '// Task: Calculator - Find the sine of a number',
+      task: '// Task: Calculator\n// Find the sine of a number',
       tests: [sineTest1, sineTest2, sineTest3, sineTest4, sineTest5],
     },
   },
