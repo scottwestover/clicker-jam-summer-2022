@@ -64,7 +64,7 @@ export default class PreloadScene extends BaseScene {
 
   public sceneFadeOutComplete(): void {
     this.scene.launch(SceneKeys.AUDIO_MANAGER_SCENE);
-    // this.scene.start(SceneKeys.TITLE_SCENE);
-    this.scene.start(SceneKeys.GAME_SCENE);
+    this.scene.start(SceneKeys.TITLE_SCENE);
+    // this.scene.start(SceneKeys.GAME_SCENE);
   }
 }
